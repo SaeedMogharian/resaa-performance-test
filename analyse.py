@@ -1,86 +1,116 @@
+import sys
+import subprocess
 import pandas as pd
-import matplotlib.pyplot as plt
-
-# Function to read and process a pidstat log file for total CPU usage
-def process_pidstat_total_cpu(file_path, threshold=10.0):
-    # Read the file
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-
-    # Initialize lists for storing the extracted data
-    total_cpu_data = []
-
-    # Extract relevant data from each line
-    for line in lines:
-        if line.startswith("Average:"):
-            continue  # skip the average lines
-        columns = line.split()
-        if len(columns) > 6:
-            try:
-                total_cpu = float(columns[5])  # Extract %CPU (total usage)
-                total_cpu_data.append(total_cpu)
-            except:
-                continue
-
-    # Create a DataFrame with the extracted data
-    df = pd.DataFrame({'total_cpu': total_cpu_data})
-
-    # Find the first index where CPU usage increases significantly
-    start_index = df[df['total_cpu'] > threshold].first_valid_index()
-
-    # Return the DataFrame sliced from the detected start index
-    if start_index is not None:
-        df = df.loc[start_index:].reset_index(drop=True)
-
-    return df
-
-# Function to plot total CPU usage comparison
-def plot_total_cpu_comparison(df1, df2, label1, label2):
-    plt.figure(figsize=(10, 6))
-
-    # Plot total CPU usage for the first log file
-    plt.plot(df1.index, df1['total_cpu'], label=f'{label1} total CPU', color='blue')
-
-    # Plot total CPU usage for the second log file
-    plt.plot(df2.index, df2['total_cpu'], label=f'{label2} total CPU', color='green')
-
-    # Formatting the plot
-    plt.xlabel('Log Entry (Step)')
-    plt.ylabel('Total CPU Usage (%)')
-    plt.title('Comparison of total CPU usage across log entries (aligned by CPU spike)')
-    plt.legend()
-    plt.grid(True)
-
-    # Show the plot
-    plt.tight_layout()
-    plt.show()
+from dataclasses import dataclass
+import re
 
 
-import os
-if __name__=="__main__":
-    # Example usage:
-    
-    home="C:/Users/Resaa/OneDrive/Resaa/MGW/rtpengine-test/"
-    t1_k_nfb = 'test1_kernel-mode_no-fallback.log'
-    t1_k = 'test1_kernel-mode_normal.log'
-    t1_u = 'test1_userspace-mode.log'
-    t2_k_nfb = 'test2_kernel-mode_no-fallback.log'
-    t2_k = 'test2_kernel-mode_normal.log'
-    t2_u = 'test2_userspace-mode.log'
-    t3_k_nfb = 'test3_kernel-mode_no-fallback.log'
-    t4_k_nfb = 'test4_kernel-mode.log'
-    t4_u = 'test4_user-mode.log'
-    t5_k_nfb = 'test5_kernel-mode.log'
-    t5_u = 'test5_user-mode.log'
+@dataclass
+class QualityConfig:
+    packets: int
+    lost_percent: float
+    jitter: float
 
 
+@dataclass
+class AnalyzeReportStream:
+    fail: int = 0
+    valid: int = 0
+    jitter: int = 0
+    lost: int = 0
 
-    file_path1 = home + t4_k_nfb
-    file_path2 = home + t5_k_nfb
+    @property
+    def all(self):
+        return self.fail + self.valid
 
-    # Process the two pidstat log files for total CPU usage
-    df1_total_cpu = process_pidstat_total_cpu(file_path1, threshold=10.0)
-    df2_total_cpu = process_pidstat_total_cpu(file_path2, threshold=10.0)
 
-    # Plot the total CPU usage comparison
-    plot_total_cpu_comparison(df1_total_cpu, df2_total_cpu, 'Log File 1', 'Log File 2')
+def run_command(command):
+    """Runs a shell command with error handling."""
+    try:
+        subprocess.run(command, shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {e}")
+        sys.exit(1)
+
+
+def generate_csv_file_header(csv_file):
+    """Generates the header for the CSV file."""
+    header = ('start time,end time,src ip,src port,des ip,des port,SSRC,payload,packets,lost,lost percent,'
+              'min delta,mean delta,max delta,min jitter,mean jitter,max jitter')
+    command = f"echo '{header}' > {csv_file}"
+    run_command(command)
+
+
+def generate_csv_file_content(csv_file, pcap_file):
+    """Generates the content for the CSV file by parsing the pcap file with tshark."""
+    command = (f"tshark -r {pcap_file} -qz rtp,streams | head -n -1 | tail -n +3 | "
+               f"sed 's/X//' | sed 's/^[[:space:]]*//;s/[[:space:]]\\{{1,\\}},/g' | sed 's/,$//' >> {csv_file}")
+    run_command(command)
+
+
+def create_csv_file(csv_file, pcap_file):
+    """Creates a CSV file with header and content."""
+    generate_csv_file_header(csv_file)
+    generate_csv_file_content(csv_file, pcap_file)
+
+
+def analyze_stream(data_frame, quality_config: QualityConfig):
+    """Analyzes the RTP streams based on the quality configuration."""
+    report = AnalyzeReportStream()
+
+    for index in data_frame.index:
+        # Check packet count
+        if data_frame.loc[index, "packets"] < quality_config.packets:
+            data_frame.drop(index, inplace=True)
+            report.fail += 1
+            continue
+
+        # Check jitter
+        if data_frame.loc[index, "mean jitter"] > quality_config.jitter:
+            report.jitter += 1
+
+        # Check lost percentage (clean parsing)
+        lost_percent_str = re.sub(r"[^\d.]", "", str(data_frame.loc[index, "lost percent"]))
+        if float(lost_percent_str) > quality_config.lost_percent:
+            report.lost += 1
+
+    report.valid = len(data_frame)
+    return report
+
+
+def is_pass_test(report: AnalyzeReportStream):
+    """Determines if the test passes based on jitter and packet loss."""
+    return report.jitter == 0 and report.lost == 0
+
+
+def print_report(report: AnalyzeReportStream, quality_config: QualityConfig):
+    """Prints the analysis report."""
+    print("------------------------------")
+    print(f"Valid streams : {report.valid}")
+    print(f"Failed streams: {report.fail}")
+    print(f"Total streams : {report.all}")
+    print("------------------------------")
+    print(f"Invalid jitter: {report.jitter} (>{quality_config.jitter})")
+    print(f"Lost invalid  : {report.lost} (>{quality_config.lost_percent}%)")
+    print("------------------------------")
+    print("Test Pass" if is_pass_test(report) else "Test Not Pass")
+    print("------------------------------")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Input pcap file")
+        sys.exit(1)
+
+    print("Creating CSV file")
+    csv_file = "file.csv"
+    pcap_file = sys.argv[1]
+
+    create_csv_file(csv_file, pcap_file)
+
+    print("Analyzing Quality")
+    quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
+
+    data_frame = pd.read_csv(csv_file)
+    report = analyze_stream(data_frame, quality_config)
+    print_report(report, quality_config)
