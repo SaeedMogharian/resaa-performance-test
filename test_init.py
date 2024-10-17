@@ -55,14 +55,15 @@ if __name__ == "__main__":
     ]
 
     # Run local daemons and capture output
-    rtpengine_process = run_daemon(rtpengine_command, rtpengine_command, capture_output=True)
+    rtpengine_process = run_daemon(rtpengine_command, rtpengine_dir, capture_output=True)
 
-    kamailio_dir = os.path.expanduser("~/projects/resaa-pcscsf")
+    kamailio_dir = os.path.expanduser("/root/projects/resaa-pcscf")
     kamailio_command = ["docker", "compose", "up"]
     kamailio_process = run_daemon(kamailio_command, kamailio_dir)
 
     pidstat_command = ["pidstat", "-p", "$(pidstat | grep rtpengine | awk '{print $4}')", "1"]
-    pidstat_process = run_daemon(pidstat_command, capture_output=True)
+    pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+    pidstat_process = run_daemon(pidstat_command, pidstat_dir, capture_output=True)
 
     # Run remote commands
     server_command = ["~/saeedm/performance-test/server-performance.sh", str(n*2)]
