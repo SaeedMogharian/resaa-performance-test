@@ -10,11 +10,13 @@ def run_remote_daemon(command, remote, password):
     return daemon_process
 
 # Function to run a local daemon and capture output
-def run_daemon(command, capture_output=False):
+def run_daemon(command, working_directory, capture_output=False):
     stdout = subprocess.PIPE if capture_output else None
     stderr = subprocess.PIPE if capture_output else None
-    daemon_process = subprocess.Popen(command, stdout=stdout, stderr=stderr, preexec_fn=os.setsid)
-    print(f"Daemon process started with PID {daemon_process.pid}")
+    
+    # Start the command as a background process (detaching it from the main process)
+    daemon_process = subprocess.Popen(command, stdout=stdout, stderr=stderr, preexec_fn=os.setsid, cwd=working_directory)
+    print(f"Daemon process started with PID {daemon_process.pid} in directory {working_directory}")
     return daemon_process
 
 # Function to stop the daemon process and save output to a file
@@ -43,19 +45,21 @@ if __name__ == "__main__":
     sipp_server = "root@192.168.21.57"
     sipp_client = "root@192.168.21.56"
 
-    rtpengine_dir = "~/projects/rtpengine/rtpengine"
+    rtpengine_dir = os.path.expanduser("~/projects/rtpengine/rtpengine")
     rtpengine_command = [
-        f"{rtpengine_dir}/daemon/rtpengine",
+        "./daemon/rtpengine",
         "--foreground",
-        "--config-file", f"{rtpengine_dir}/etc/rtpengine.conf",
+        "--config-file", "./etc/rtpengine.conf",
         "--no-fallback",
         "--pidfile=rtpengine.pid"
     ]
 
     # Run local daemons and capture output
-    rtpengine_process = run_daemon(rtpengine_command, capture_output=True)
-    kamailio_command = ["docker", "compose", "-f", "~/projects/resaa-pcscsf/docker-compose.yml", "up"]
-    kamailio_process = run_daemon(kamailio_command)
+    rtpengine_process = run_daemon(rtpengine_command, rtpengine_command, capture_output=True)
+
+    kamailio_dir = os.path.expanduser("~/projects/resaa-pcscsf")
+    kamailio_command = ["docker", "compose", "up"]
+    kamailio_process = run_daemon(kamailio_command, kamailio_dir)
 
     pidstat_command = ["pidstat", "-p", "$(pidstat | grep rtpengine | awk '{print $4}')", "1"]
     pidstat_process = run_daemon(pidstat_command, capture_output=True)
