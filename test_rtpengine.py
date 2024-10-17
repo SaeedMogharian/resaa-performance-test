@@ -58,7 +58,10 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("input concurent call number")
         sys.exit(1)
-    test_id = "9"
+    try:
+        test_id = sys.argv[2] 
+    except:
+        test_id = "9"
     n = sys.argv[1] 
 
     sipp_server = "root@192.168.21.57"
@@ -76,7 +79,7 @@ if __name__ == "__main__":
         # If the PID is found, proceed with pidstat
         pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
         pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        pidstat_log_file = os.path.join(pidstat_dir, f"pidstat_log_{test_id}.txt")
+        pidstat_log_file = os.path.join(pidstat_dir, f"pidstat_log_{test_id}.log")
         
         # Run pidstat and redirect output to a log file
         pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
