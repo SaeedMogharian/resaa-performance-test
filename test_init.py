@@ -10,33 +10,37 @@ def run_remote_daemon(command, remote, password):
     return daemon_process
 
 # Function to run a local daemon and capture output
-def run_daemon(command, working_directory, capture_output=False):
+def run_daemon(command, working_directory, output_file, capture_output=False):
     stdout = subprocess.PIPE if capture_output else None
     stderr = subprocess.PIPE if capture_output else None
     
     # Start the command as a background process (detaching it from the main process)
     daemon_process = subprocess.Popen(command, stdout=stdout, stderr=stderr, preexec_fn=os.setsid, cwd=working_directory)
     print(f"Daemon process started with PID {daemon_process.pid} in directory {working_directory}")
+
+    # Capture output if requested
+    if capture_output:
+        with open(output_file, 'w') as f:
+            while True:
+                output = daemon_process.stdout.readline()
+                if output == b'' and daemon_process.poll() is not None:
+                    break
+                if output:
+                    f.write(output.decode())
+                    f.flush()  # Ensure output is written to the file immediately
+        print(f"Output saved to {output_file}")
+
     return daemon_process
 
-# Function to stop the daemon process and save output to a file
-def stop_daemon(daemon_process, log_file=None):
+# Function to stop the daemon process
+def stop_daemon(daemon_process):
     try:
-        if log_file:
-            stdout, stderr = daemon_process.communicate(timeout=10)
-            # Write the stdout and stderr to the log file
-            with open(log_file, 'w') as f:
-                f.write(f"STDOUT:\n{stdout.decode()}\n")
-                f.write(f"STDERR:\n{stderr.decode()}\n")
-            print(f"Daemon output saved to {log_file}")
         os.killpg(os.getpgid(daemon_process.pid), signal.SIGTERM)  # Send SIGTERM to the process group
         print(f"Daemon process with PID {daemon_process.pid} terminated.")
-    except subprocess.TimeoutExpired:
-        print(f"Daemon process with PID {daemon_process.pid} is still running, force stopping.")
-        os.killpg(os.getpgid(daemon_process.pid), signal.SIGTERM)
     except Exception as e:
         print(f"Failed to stop daemon process: {e}")
 
+import time
 # Main function with sequential stopping of processes after client command finishes
 if __name__ == "__main__":
     test_id = "9"
@@ -56,14 +60,15 @@ if __name__ == "__main__":
 
     # Run local daemons and capture output
     rtpengine_process = run_daemon(rtpengine_command, rtpengine_dir, capture_output=True)
+    time.sleep(5)
+
+    pidstat_command = ["pidstat", "-p", str(rtpengine_process.pid), "1"]
+    pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+    pidstat_process = run_daemon(pidstat_command, pidstat_dir, capture_output=True)
 
     kamailio_dir = os.path.expanduser("/root/projects/resaa-pcscf")
     kamailio_command = ["docker", "compose", "up"]
     kamailio_process = run_daemon(kamailio_command, kamailio_dir)
-
-    pidstat_command = ["pidstat", "-p", "$(pidstat | grep rtpengine | awk '{print $4}')", "1"]
-    pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-    pidstat_process = run_daemon(pidstat_command, pidstat_dir, capture_output=True)
 
     # Run remote commands
     server_command = ["~/saeedm/performance-test/server-performance.sh", str(n*2)]
@@ -77,12 +82,17 @@ if __name__ == "__main__":
     client_process.wait()  # Block until client_command finishes
 
     # Once client command finishes, stop pidstat and save its output to a file
+    time.sleep(3)
+
     print("Client command finished. Stopping pidstat...")
     stop_daemon(pidstat_process, log_file="pidstat_output.log")
+    time.sleep(5)
+
 
     # Stop rtpengine daemon and save its output to a file
     print("Stopping rtpengine daemon...")
     stop_daemon(rtpengine_process, log_file="rtpengine_output.log")
+    time.sleep(5)
 
     # Stop kamailio daemon (no output capture for kamailio)
     print("Stopping kamailio daemon...")
