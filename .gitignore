@@ -2,3 +2,5 @@
 *.log
 *.txt
 /.idea
+*.pcap
+*.csv
