@@ -3,6 +3,7 @@ import os
 import signal
 import time
 import sys
+from threading import Thread
 
 # Function to read PID from a file
 def get_pid_from_file(pid_file):
@@ -53,10 +54,23 @@ def stop_daemon(daemon_process):
     except Exception as e:
         print(f"Failed to stop daemon process: {e}")
 
-# Main function with sequential stopping of processes after client command finishes
+def check_rtpengine_log(log_file_path):
+    """Monitor the rtpengine.log file for new content."""
+    with open(log_file_path, "r") as log_file:
+        # Move the cursor to the end of the file
+        log_file.seek(0, os.SEEK_END)
+
+        while True:
+            line = log_file.readline()
+            if line:
+                print("test is aborted: ", line.strip())
+                # Abort the test by terminating the program
+                os._exit(1)  # This forcefully exits all threads and processes
+            time.sleep(1)  # Adjust this sleep interval if necessary
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("input concurent call number")
+        print("input concurrent call number")
         sys.exit(1)
     try:
         test_id = sys.argv[2] 
@@ -71,6 +85,12 @@ if __name__ == "__main__":
     
     # Path to the PID file
     pid_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.pid"
+    log_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.log"  # Path to rtpengine.log
+
+    # Start a thread to monitor the rtpengine log file
+    log_thread = Thread(target=check_rtpengine_log, args=(log_file_path,))
+    log_thread.daemon = True
+    log_thread.start()
 
     # Read the PID from the file
     rtpengine_pid = get_pid_from_file(pid_file_path)
