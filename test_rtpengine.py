@@ -64,8 +64,8 @@ if __name__ == "__main__":
         test_id = "9"
     n = sys.argv[1] 
 
-    sipp_server = "root@192.168.21.57"
-    sipp_client = "root@192.168.21.56"
+    sipp_server = "root@192.168.100.57"
+    sipp_client = "root@192.168.100.56"
 
     project_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
     
@@ -84,6 +84,12 @@ if __name__ == "__main__":
         # Run pidstat and redirect output to a log file
         pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
         time.sleep(5)
+
+        tcpdump_command = ["tcpdump", "-i",  "any", f"tcpdump_{test_id}.pcap"]
+        tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+        tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
+        time.sleep(5)
+
     
         # Run remote commands
         server_command = ["./server-performance.sh", str(int(n)*2)]
@@ -104,6 +110,8 @@ if __name__ == "__main__":
 
         print(f"Client command finished. Stopping pidstat... Logs saved in {pidstat_log_file}")
         stop_daemon(pidstat_process)
+        time.sleep(5)
+        stop_daemon(tcpdump_process)
         time.sleep(5)
     else:
         print("RTPengine PID not found. Unable to start pidstat.")
