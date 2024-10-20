@@ -27,7 +27,7 @@ def run_remote_daemon(command, remote, password, working_directory):
     
     daemon_process = subprocess.Popen(ssh_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-    print(f"Daemon process started on {remote} with SSH command: {' '.join(ssh_command)}")
+    print(f"Daemon process started with SSH command: {' '.join(ssh_command)}")
     return daemon_process
 
 # Function to run a local daemon and capture output
@@ -43,7 +43,7 @@ def run_daemon(command, working_directory, log_file=None):
         cwd=working_directory
     )
     
-    print(f"Daemon process started with PID {daemon_process.pid} in directory {working_directory}")
+    print(f"Daemon process {' '.join(command)} executed in directory {working_directory}")
     return daemon_process
 
 # Function to stop the daemon process
@@ -78,8 +78,8 @@ if __name__ == "__main__":
         test_id = "9"
     n = sys.argv[1] 
 
-    sipp_server = "root@192.168.100.57"
-    sipp_client = "root@192.168.100.56"
+    sipp_server = "root@192.168.21.57"
+    sipp_client = "root@192.168.21.56"
 
     project_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
     
@@ -99,27 +99,28 @@ if __name__ == "__main__":
         # If the PID is found, proceed with pidstat
         pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
         pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        pidstat_log_file = os.path.join(pidstat_dir, f"pidstat_log_{test_id}.log")
+        pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_pidstat_log.log")
         
         # Run pidstat and redirect output to a log file
         pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
-        time.sleep(5)
+        time.sleep(3)
 
-        tcpdump_command = ["tcpdump", "-i",  "any", f"tcpdump_{test_id}.pcap"]
+        tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
+        tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
         tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
         tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
-        time.sleep(5)
+        time.sleep(3)
 
     
         # Run remote commands
         server_command = ["./server-performance.sh", str(int(n)*2)]
         sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
         server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
-        time.sleep(15)
+        time.sleep(3)
 
         client_command = ["./rtpengine_test.sh", str(n)]
         client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
-        time.sleep(15)
+        time.sleep(3)
 
         # Wait for client command to finish
         print("Waiting for the client process to complete...")
@@ -130,8 +131,9 @@ if __name__ == "__main__":
 
         print(f"Client command finished. Stopping pidstat... Logs saved in {pidstat_log_file}")
         stop_daemon(pidstat_process)
-        time.sleep(5)
+        time.sleep(3)
+        print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
         stop_daemon(tcpdump_process)
-        time.sleep(5)
+        time.sleep(3)
     else:
         print("RTPengine PID not found. Unable to start pidstat.")
