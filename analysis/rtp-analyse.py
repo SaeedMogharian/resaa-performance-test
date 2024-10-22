@@ -120,14 +120,24 @@ if __name__ == "__main__":
 
     pcap_file = sys.argv[1] 
 
-    print("Creating csv file")
-    csv_file =f"{pcap_file[:-5]}.csv"
+
 
     if not os.path.exists(pcap_file):
-        print("File does not exist, Test Finished")
+        print("File does not exist, Test Aborted")
         exit(0)
-    
-    create_csv_file(csv_file, pcap_file)
+    if ".pcap" not in pcap_file or ".csv" not in pcap_file:
+        print("File does not supported, Test Aborted")
+        exit(0)
+
+
+    if ".pcap" not in pcap_file and ".csv" in pcap_file:
+        csv_file = pcap_file
+
+    else:
+        print("Creating csv file")
+        csv_file = f"{pcap_file[:-5]}.csv"
+
+        create_csv_file(csv_file, pcap_file)
 
     quality_config = QualityConfig(
         lost_percent=0.5, 
