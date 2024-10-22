@@ -4,7 +4,6 @@ import signal
 import time
 import sys
 from threading import Thread
-
 # Function to read PID from a file
 def get_pid_from_file(pid_file):
     try:
@@ -95,45 +94,63 @@ if __name__ == "__main__":
     # Read the PID from the file
     rtpengine_pid = get_pid_from_file(pid_file_path)
 
-    if rtpengine_pid:
-        # If the PID is found, proceed with pidstat
-        pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-        pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_pidstat_log.log")
-        
-        # Run pidstat and redirect output to a log file
-        pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
-        time.sleep(3)
-
-        tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
-        tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
-        tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
-        time.sleep(3)
-
-    
-        # Run remote commands
-        server_command = ["./server-performance.sh", str(int(n)*2)]
-        sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
-        server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
-        time.sleep(3)
-
-        client_command = ["./rtpengine_test.sh", str(n)]
-        client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
-        time.sleep(3)
-
-        # Wait for client command to finish
-        print("Waiting for the client process to complete...")
-        client_process.wait()  # Block until client_command finishes
-
-        # Once client command finishes, stop pidstat
-        time.sleep(3)
-
-        print(f"Client command finished. Stopping pidstat... Logs saved in {pidstat_log_file}")
-        stop_daemon(pidstat_process)
-        time.sleep(3)
-        print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
-        stop_daemon(tcpdump_process)
-        time.sleep(3)
-    else:
+    if not rtpengine_pid:
         print("RTPengine PID not found. Unable to start pidstat.")
+        exit(0)
+
+
+
+
+
+
+    # If the PID is found, proceed with pidstat
+    # pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
+    # pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+    # pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_usage.log")
+    # pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
+    # time.sleep(3)
+
+    tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
+    tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
+    tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+    tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
+    time.sleep(3)
+
+
+    # Run remote commands
+    server_command = ["./server-performance.sh", str(int(n)*2)]
+    sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
+    server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
+    time.sleep(3)
+
+    client_command = ["./rtpengine_test.sh", str(n)]
+    # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 50s -r 20 -rp 1s -m 2000".split()
+    client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
+    time.sleep(3)
+
+    # Wait for client command to finish
+    print("Waiting for the client process to complete...")
+    client_process.wait()  # Block until client_command finishes
+
+    # print(f"Client command finished. Stopping pidstat... Logs saved in {pidstat_log_file}")
+    # stop_daemon(pidstat_process)
+    # time.sleep(3)
+
+
+    print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
+    stop_daemon(tcpdump_process)
+    time.sleep(3)
+
+
+
+    # quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
+    # # report = analyze_pcap(f"tcpdump_log_file", quality_config)
+
+    # print("--------------------")
+    # print(report)
+
+
+
+
+
+        

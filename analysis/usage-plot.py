@@ -62,8 +62,6 @@ def plot_total_cpu_comparison(df1, df2=None):
     plt.tight_layout()
     plt.show()
 
-
-import os
 if __name__=="__main__":
     if len(sys.argv) < 2:
         print("input log file")
