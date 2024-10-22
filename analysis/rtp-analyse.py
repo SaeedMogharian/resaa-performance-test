@@ -109,14 +109,14 @@ def print_report(report: AnalyzeReportStream, quality_config: QualityConfig):
 
 
 if __name__ == "__main__":
-    # if len(sys.argv) < 2:
-    #     print("input pcap file")
-    #     sys.exit(1)
+    if len(sys.argv) < 2:
+        print("input pcap file")
+        sys.exit(1)
 
     print("Create csv file")
     csv_file ="file.csv"
-    # pcap_file = sys.argv[1] 
-    pcap_file = "/root/projects/rtpengine_performance_test/analysis/test_tcpdump.pcap"
+    pcap_file = sys.argv[1] 
+    # pcap_file = "/root/projects/rtpengine_performance_test/analysis/test10_tcpdump.pcap"
 
     create_csv_file(csv_file, pcap_file)
 
