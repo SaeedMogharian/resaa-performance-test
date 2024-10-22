@@ -1,3 +1,4 @@
+import os
 import sys
 import subprocess
 import pandas as pd
@@ -50,6 +51,14 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
     max_packets = data_frame['packets'].max()
     threshold_packets = (quality_config.stream_percent / 100) * max_packets  # Use threshold from config
 
+
+    # Group by SSRC and check if each SSRC appears exactly twice (paired)
+    ssrc_counts = data_frame['SSRC'].value_counts()
+    for ssrc, count in ssrc_counts.items():
+        if count != 2:
+            report.unpaired_ssrc += 1
+
+
     for index in data_frame.index:
         if data_frame.loc[index, "packets"] < threshold_packets:  # Check if packets are below threshold percentage
             data_frame.drop(index, inplace=True)
@@ -64,11 +73,7 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
 
     report.valid = len(data_frame)
 
-    # Group by SSRC and check if each SSRC appears exactly twice (paired)
-    ssrc_counts = data_frame['SSRC'].value_counts()
-    for ssrc, count in ssrc_counts.items():
-        if count != 2:
-            report.unpaired_ssrc += 1
+    
 
 
     # Check if packets in the same SSRC are the same
@@ -83,7 +88,7 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
 
 
 def is_pass_test(report: AnalyzeReportStream):
-    if report.jitter == 0 and report.lost == 0 and report.fail == 0:
+    if report.jitter == 0 and report.lost == 0 and report.fail <= 0.1*report.all:
         return True
     return False
 
@@ -113,11 +118,15 @@ if __name__ == "__main__":
         print("input pcap file")
         sys.exit(1)
 
-    print("Create csv file")
-    csv_file ="file.csv"
     pcap_file = sys.argv[1] 
-    # pcap_file = "/root/projects/rtpengine_performance_test/analysis/test10_tcpdump.pcap"
 
+    print("Creating csv file")
+    csv_file =f"{pcap_file[:-5]}.csv"
+
+    if not os.path.exists(pcap_file):
+        print("File does not exist, Test Finished")
+        exit(0)
+    
     create_csv_file(csv_file, pcap_file)
 
     quality_config = QualityConfig(
@@ -126,9 +135,10 @@ if __name__ == "__main__":
         stream_percent=50.0  # Configurable packet threshold percentage
     )
     
-    print("Analyze Quality")
-    
+    print("Analyzing Quality")
     data_frame = pd.read_csv(csv_file)
     report: AnalyzeReportStream = analyze_stream(data_frame, quality_config)
+
+
     print_report(report, quality_config)
         

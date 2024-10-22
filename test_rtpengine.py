@@ -64,7 +64,11 @@ def check_rtpengine_log(log_file_path):
             if line:
                 print("\n\ntest is failed and aborted: ", line.strip())
                 # Abort the test by terminating the program
-                # os._exit(1)  # This forcefully exits all threads and processes
+                kill_program_by_name("kamailio")
+                kill_program_by_name("rtpengine")
+                kill_program_by_name("tcpdump")
+                kill_program_by_name("pidstat")
+                os._exit(1)  # This forcefully exits all threads and processes
             time.sleep(1)  # Adjust this sleep interval if necessary
 
 def kill_program_by_name(program_name):
@@ -85,25 +89,15 @@ def kill_program_by_name(program_name):
             # Kill each PID with -9 signal
             try:
                 subprocess.run(['kill', '-9', pid], check=True)
-                print(f"Killed process with PID: {pid}")
+                print(f"Killed process {program_name} with PID: {pid}")
             except subprocess.CalledProcessError as e:
-                print(f"Failed to kill process with PID: {pid}. Error: {e}")
+                pass
+                # print(f"On program {program_name}. Failed to kill process with PID: {pid}.")
 
     except Exception as e:
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("input concurrent call number")
-        sys.exit(1)
-    n = sys.argv[1] 
-
-    try:
-        test_id = sys.argv[2] 
-    except:
-        test_id = str(n)
-    
-
     sipp_server = "root@192.168.21.57"
     sipp_client = "root@192.168.21.56"
 
@@ -113,65 +107,104 @@ if __name__ == "__main__":
     pid_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.pid"
     log_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.log"  # Path to rtpengine.log
 
-    # Start a thread to monitor the rtpengine log file
-    log_thread = Thread(target=check_rtpengine_log, args=(log_file_path,))
-    log_thread.daemon = True
-    log_thread.start()
+    if len(sys.argv) < 2:
+        print("input call count")
+        sys.exit(1)
+    a = sys.argv[1]
 
-    # Read the PID from the file
-    rtpengine_pid = get_pid_from_file(pid_file_path)
+    try:
+        b = sys.argv[2] 
+    except:
+        b = str(int(a)+1)
 
-    if not rtpengine_pid:
-        print("RTPengine PID not found. Unable to start pidstat.")
-        exit(0)
+    
 
+    for n in range(int(a),int(b),100):
+        # kill_program_by_name("kamailio")
+        # kill_program_by_name("rtpengine")
+        # time.sleep(8)
 
+        # rtpengine_command = "./daemon/rtpengine --foreground --config-file ./etc/rtpengine.conf --no-fallback --pidfile=rtpengine.pid > ./rtpengine.log 2>&1".split()
+        # rtpengine_dir = os.path.expanduser("/root/projects/rtpengine/rtpengine")
+        # rtpengine_process = run_daemon(rtpengine_command, rtpengine_dir)
+        # time.sleep(5)
 
-    # If the PID is found, proceed with pidstat
-    # pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-    # pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-    # pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_usage.log")
-    # pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
-    # time.sleep(3)
-
-    tcpdump_log_file = f"test{test_id}_capture.pcap"
-    tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
-    tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-    tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
-    time.sleep(3)
-
-
-    # Run remote commands
-    server_command = ["./server-performance.sh", str(int(n)*2)]
-    sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
-    server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
-    time.sleep(3)
-
-    client_command = ["./rtpengine_test.sh", str(n)]
-    # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 50s -r 20 -rp 1s -m 2000".split()
-    client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
-    time.sleep(3)
-
-    # Wait for client command to finish
-    print("Waiting for the client process to complete...")
-    client_process.wait()  # Block until client_command finishes
-
-    # print(f"Client command finished. Stopping pidstat... Logs saved in {pidstat_log_file}")
-    # stop_daemon(pidstat_process)
-    # time.sleep(3)
+        # kamailio_command = "docker compose up".split()
+        # kamailio_dir = os.path.expanduser("/root/projects/resaa-pcscf")
+        # kamailio_process = run_daemon(kamailio_command, kamailio_dir)
+        # time.sleep(15)
 
 
-    print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
-    stop_daemon(tcpdump_process)
-    time.sleep(3)
+        test_id = n
+        
+
+        # Start a thread to monitor the rtpengine log file
+        log_thread = Thread(target=check_rtpengine_log, args=(log_file_path,))
+        log_thread.daemon = True
+        log_thread.start()
+
+        # Read the PID from the file
+        rtpengine_pid = get_pid_from_file(pid_file_path)
+
+        if not rtpengine_pid:
+            print("RTPengine PID not found. Unable to start pidstat.")
+            exit(0)
 
 
 
-    # quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
-    # # report = analyze_pcap(f"tcpdump_log_file", quality_config)
+        # If the PID is found, proceed with pidstat
+        pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
+        pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+        pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_usage.log")
+        pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
+        time.sleep(3)
 
-    # print("--------------------")
-    # print(report)
+
+        print(f"Testing on n={n}")
+
+        tcpdump_log_file = f"test{test_id}_capture.pcap"
+        tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
+        tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+        tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
+        time.sleep(3)
+
+
+        # Run remote commands
+        server_command = ["./server-performance.sh", str(n)]
+        sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
+        server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
+        time.sleep(3)
+
+        client_command = ["./client-performance.sh", str(n)]
+        # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 50s -r 20 -rp 1s -m 2000".split()
+        client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
+        time.sleep(3)
+
+        # Wait for client command to finish
+        print("Waiting for the client process to complete...")
+        client_process.wait()  # Block until client_command finishes
+
+        print(f"Stopping pidstat... Logs saved in {pidstat_log_file}")
+        stop_daemon(pidstat_process)
+        time.sleep(3)
+
+
+        print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
+        stop_daemon(tcpdump_process)
+        time.sleep(3)
+
+
+
+        # quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
+        # # report = analyze_pcap(f"tcpdump_log_file", quality_config)
+
+        # print("--------------------")
+        # print(report)
+
+    
+
+
+
 
 
 
