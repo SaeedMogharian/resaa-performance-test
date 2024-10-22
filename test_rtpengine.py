@@ -104,8 +104,8 @@ if __name__ == "__main__":
     project_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
     
     # Path to the PID file
-    pid_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.pid"
-    log_file_path = "/root/projects/rtpengine/rtpengine/rtpengine.log"  # Path to rtpengine.log
+    pid_file_path = "/root/saeedm/rtpengine.pid"
+    log_file_path = "/root/saeedm/rtpengine.log"  # Path to rtpengine.log
 
     if len(sys.argv) < 2:
         print("input call count")
