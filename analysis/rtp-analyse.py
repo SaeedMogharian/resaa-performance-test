@@ -6,9 +6,9 @@ from dataclasses import dataclass
 
 @dataclass
 class QualityConfig:
-    packets: int
     lost_percent: float
     jitter: float
+    stream_percent: float  # New field for the packet percentage threshold
 
 
 @dataclass
@@ -45,27 +45,13 @@ def create_csv_file(csv_file, pcap_file):
 
 
 def analyze_stream(data_frame, quality_config: QualityConfig):
-    report = AnalyzeReportStream()
-
-    # Group by SSRC and check if each SSRC appears exactly twice (paired)
-    ssrc_counts = data_frame['SSRC'].value_counts()
-
-    for ssrc, count in ssrc_counts.items():
-        if count != 2:
-            report.unpaired_ssrc += 1
-
-    # Check if packets in the same SSRC are the same
-    grouped_by_ssrc = data_frame.groupby('SSRC')
+    report = AnalyzeReportStream()    
     
-    for ssrc, group in grouped_by_ssrc:
-        # Compare packets in the same SSRC
-        packets = group['packets'].values
-        if not all(p == packets[0] for p in packets):  # If packets differ in the same SSRC
-            report.broken_packets += 1
-            # report.fail += 1  # Mark as failed stream since packets are not the same
+    max_packets = data_frame['packets'].max()
+    threshold_packets = (quality_config.stream_percent / 100) * max_packets  # Use threshold from config
 
     for index in data_frame.index:
-        if data_frame.loc[index, "packets"] < quality_config.packets:
+        if data_frame.loc[index, "packets"] < threshold_packets:  # Check if packets are below threshold percentage
             data_frame.drop(index, inplace=True)
             report.fail += 1
             continue
@@ -77,31 +63,50 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
             report.lost += 1
 
     report.valid = len(data_frame)
+
+    # Group by SSRC and check if each SSRC appears exactly twice (paired)
+    ssrc_counts = data_frame['SSRC'].value_counts()
+    for ssrc, count in ssrc_counts.items():
+        if count != 2:
+            report.unpaired_ssrc += 1
+
+
+    # Check if packets in the same SSRC are the same
+    grouped_by_ssrc = data_frame.groupby('SSRC')
+    for ssrc, group in grouped_by_ssrc:
+        # Compare packets in the same SSRC
+        packets = group['packets'].values
+        if not all(p == packets[0] for p in packets):  # If packets differ in the same SSRC
+            report.broken_packets += 1
+
     return report
 
 
 def is_pass_test(report: AnalyzeReportStream):
-    if report.jitter == 0 and report.lost == 0 and report.unpaired_ssrc == 0 and report.broken_packets == 0:
+    if report.jitter == 0 and report.lost == 0 and report.fail == 0:
         return True
     return False
 
 
 def print_report(report: AnalyzeReportStream, quality_config: QualityConfig):
     print("------------------------------")
-    print(f"valid streams : {report.valid}")
-    print(f"failed calls: {report.fail}")
-    print(f"all streams: {report.all}")
-    print(f"unpaired SSRCs: {report.unpaired_ssrc}")
-    print(f"broken streams: {report.broken_packets}")
+    print(f"All streams: {report.all}")
+    print(f"Valid streams : {report.valid}")
+    print(f"Failed calls: {report.fail} (<{quality_config.stream_percent}% success)")
     print("------------------------------")
-    print(f"jitter invalid: {report.jitter} (>{quality_config.jitter})")
-    print(f"lost invalid: {report.lost} (>{quality_config.lost_percent}%)")
+    print(f"Unpaired SSRCs: {report.unpaired_ssrc}")
+    print(f"Broken streams: {report.broken_packets}")
+    print("------------------------------")
+    print(f"Jitter invalid: {report.jitter} (>{quality_config.jitter})")
+    print(f"Lost invalid: {report.lost} (>{quality_config.lost_percent}%)")
     print("------------------------------")
     if is_pass_test(report):
         print("Test Pass")
     else:
         print("Test Not Pass")
     print("------------------------------")
+
+
 
 if __name__ == "__main__":
     # if len(sys.argv) < 2:
@@ -111,16 +116,19 @@ if __name__ == "__main__":
     print("Create csv file")
     csv_file ="file.csv"
     # pcap_file = sys.argv[1] 
-    pcap_file = "/root/projects/rtpengine_performance_test/analysis/failed-capture.pcap"
+    pcap_file = "/root/projects/rtpengine_performance_test/analysis/test_tcpdump.pcap"
 
     create_csv_file(csv_file, pcap_file)
+
+    quality_config = QualityConfig(
+        lost_percent=0.5, 
+        jitter=30.0, 
+        stream_percent=50.0  # Configurable packet threshold percentage
+    )
     
     print("Analyze Quality")
-    quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
     
     data_frame = pd.read_csv(csv_file)
     report: AnalyzeReportStream = analyze_stream(data_frame, quality_config)
     print_report(report, quality_config)
         
-
-

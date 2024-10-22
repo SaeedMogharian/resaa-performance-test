@@ -74,7 +74,7 @@ if __name__ == "__main__":
     try:
         test_id = sys.argv[2] 
     except:
-        test_id = "9"
+        test_id = ''
     n = sys.argv[1] 
 
     sipp_server = "root@192.168.21.57"
