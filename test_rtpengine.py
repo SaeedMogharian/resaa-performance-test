@@ -62,20 +62,47 @@ def check_rtpengine_log(log_file_path):
         while True:
             line = log_file.readline()
             if line:
-                print("test is aborted: ", line.strip())
+                print("\n\ntest is failed and aborted: ", line.strip())
                 # Abort the test by terminating the program
-                os._exit(1)  # This forcefully exits all threads and processes
+                # os._exit(1)  # This forcefully exits all threads and processes
             time.sleep(1)  # Adjust this sleep interval if necessary
+
+def kill_program_by_name(program_name):
+    try:
+        # Get the PIDs of the program using pidstat, grep, and awk
+        cmd = f"pidstat | grep {program_name} | awk '{{print $4}}'"
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+        # Check if any PIDs were found
+        if result.returncode != 0 or not result.stdout.strip():
+            print(f"No processes found for program: {program_name}")
+            return
+
+        # Split the output by lines to get each PID
+        pids = result.stdout.strip().split('\n')
+
+        for pid in pids:
+            # Kill each PID with -9 signal
+            try:
+                subprocess.run(['kill', '-9', pid], check=True)
+                print(f"Killed process with PID: {pid}")
+            except subprocess.CalledProcessError as e:
+                print(f"Failed to kill process with PID: {pid}. Error: {e}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("input concurrent call number")
         sys.exit(1)
+    n = sys.argv[1] 
+
     try:
         test_id = sys.argv[2] 
     except:
-        test_id = "9"
-    n = sys.argv[1] 
+        test_id = str(n)
+    
 
     sipp_server = "root@192.168.21.57"
     sipp_client = "root@192.168.21.56"
@@ -100,9 +127,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
     # If the PID is found, proceed with pidstat
     # pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
     # pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
@@ -110,7 +134,7 @@ if __name__ == "__main__":
     # pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
     # time.sleep(3)
 
-    tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
+    tcpdump_log_file = f"test{test_id}_capture.pcap"
     tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
     tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
     tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
