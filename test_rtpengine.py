@@ -110,11 +110,11 @@ if __name__ == "__main__":
     # pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
     # time.sleep(3)
 
-    tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
-    tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
-    tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-    tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
-    time.sleep(3)
+    # tcpdump_log_file = f"test{test_id}_tcpdump.pcap"
+    # tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
+    # tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
+    # tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
+    # time.sleep(3)
 
 
     # Run remote commands
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     time.sleep(3)
 
     client_command = ["./rtpengine_test.sh", str(n)]
-    # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 50s -r 20 -rp 1s -m 2000".split()
+    # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 25s -r 40 -rp 1s -m 700".split()
     client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
     time.sleep(3)
 
@@ -137,9 +137,9 @@ if __name__ == "__main__":
     # time.sleep(3)
 
 
-    print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
-    stop_daemon(tcpdump_process)
-    time.sleep(3)
+    # print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
+    # stop_daemon(tcpdump_process)
+    # time.sleep(3)
 
 
 
