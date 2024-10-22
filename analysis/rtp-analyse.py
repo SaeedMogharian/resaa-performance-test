@@ -18,6 +18,7 @@ class AnalyzeReportStream:
     jitter: int = 0
     lost: int = 0
     unpaired_ssrc: int = 0
+    broken_packets: int = 0
 
     @property
     def all(self):
@@ -53,6 +54,16 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
         if count != 2:
             report.unpaired_ssrc += 1
 
+    # Check if packets in the same SSRC are the same
+    grouped_by_ssrc = data_frame.groupby('SSRC')
+    
+    for ssrc, group in grouped_by_ssrc:
+        # Compare packets in the same SSRC
+        packets = group['packets'].values
+        if not all(p == packets[0] for p in packets):  # If packets differ in the same SSRC
+            report.broken_packets += 1
+            # report.fail += 1  # Mark as failed stream since packets are not the same
+
     for index in data_frame.index:
         if data_frame.loc[index, "packets"] < quality_config.packets:
             data_frame.drop(index, inplace=True)
@@ -70,17 +81,18 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
 
 
 def is_pass_test(report: AnalyzeReportStream):
-    if report.jitter == 0 and report.lost == 0 and report.unpaired_ssrc == 0:
+    if report.jitter == 0 and report.lost == 0 and report.unpaired_ssrc == 0 and report.broken_packets == 0:
         return True
     return False
 
 
 def print_report(report: AnalyzeReportStream, quality_config: QualityConfig):
     print("------------------------------")
-    print(f"valid stream : {report.valid}")
-    print(f"broken stream: {report.fail}")
+    print(f"valid streams : {report.valid}")
+    print(f"failed calls: {report.fail}")
     print(f"all streams: {report.all}")
     print(f"unpaired SSRCs: {report.unpaired_ssrc}")
+    print(f"broken streams: {report.broken_packets}")
     print("------------------------------")
     print(f"jitter invalid: {report.jitter} (>{quality_config.jitter})")
     print(f"lost invalid: {report.lost} (>{quality_config.lost_percent}%)")
