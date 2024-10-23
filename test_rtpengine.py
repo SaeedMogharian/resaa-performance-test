@@ -131,16 +131,16 @@ if __name__ == "__main__":
     
 
     for n in range(int(a),int(b),100):
-        # kill_process("kamailio")
-        # kill_process("rtpengine")
-        # time.sleep(8)
-        #
-        # rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
-        # rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
-        # time.sleep(5)
-        #
-        # kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
-        # time.sleep(15)
+        kill_process("kamailio")
+        kill_process("rtpengine")
+        time.sleep(8)
+
+        rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
+        rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
+        time.sleep(5)
+
+        kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
+        time.sleep(15)
 
 
         test_id = n
