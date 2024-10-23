@@ -125,7 +125,7 @@ if __name__ == "__main__":
     if not os.path.exists(pcap_file):
         print("File does not exist, Test Aborted")
         exit(0)
-    if ".pcap" not in pcap_file or ".csv" not in pcap_file:
+    if ".pcap" not in pcap_file and ".csv" not in pcap_file:
         print("File does not supported, Test Aborted")
         exit(0)
 
