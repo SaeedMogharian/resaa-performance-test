@@ -113,6 +113,8 @@ if __name__ == "__main__":
     config = read_config('.env')
     project_dir = os.getcwd()
 
+    print(config)
+
     log_file_path = f"{project_dir}/rtpengine.log"  # Path to rtpengine.log
 
     if len(sys.argv) < 2:
