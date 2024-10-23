@@ -1,5 +1,8 @@
 # RTPENGINE Test
 
+
+create a `.env` file like the exmaple
+
 ## Two-way tests:
 
 ## Test 1: 700 concurrent calls

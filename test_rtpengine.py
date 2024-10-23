@@ -1,21 +1,9 @@
 import subprocess
 import os
-import signal
 import time
 import sys
 from threading import Thread
-# Function to read PID from a file
-def get_pid_from_file(pid_file):
-    try:
-        with open(pid_file, 'r') as file:
-            pid = file.read().strip()
-            return pid
-    except FileNotFoundError:
-        print(f"PID file {pid_file} not found.")
-        return None
-    except Exception as e:
-        print(f"Error reading PID file {pid_file}: {e}")
-        return None
+
 
 # Function to run a command as a daemon on a remote machine using SSH and password
 def run_remote_daemon(command, remote, password, working_directory):
@@ -46,66 +34,86 @@ def run_daemon(command, working_directory, log_file=None):
     return daemon_process
 
 # Function to stop the daemon process
-def stop_daemon(daemon_process):
-    try:
-        os.killpg(os.getpgid(daemon_process.pid), signal.SIGTERM)  
-        print(f"Daemon process with PID {daemon_process.pid} terminated.")
-    except Exception as e:
-        print(f"Failed to stop daemon process: {e}")
-
-def check_rtpengine_log(log_file_path):
+def check_rtpengine_log(log_file):
     """Monitor the rtpengine.log file for new content."""
-    with open(log_file_path, "r") as log_file:
+    with open(log_file, "r") as logs:
         # Move the cursor to the end of the file
-        log_file.seek(0, os.SEEK_END)
+        logs.seek(0, os.SEEK_END)
 
         while True:
-            line = log_file.readline()
+            line = logs.readline()
             if line:
                 print("\n\ntest is failed and aborted: ", line.strip())
                 # Abort the test by terminating the program
-                kill_program_by_name("kamailio")
-                kill_program_by_name("rtpengine")
-                kill_program_by_name("tcpdump")
-                kill_program_by_name("pidstat")
+                kill_process("kamailio")
+                kill_process("rtpengine")
+                kill_process("tcpdump")
+                kill_process("pidstat")
                 os._exit(1)  # This forcefully exits all threads and processes
             time.sleep(1)  # Adjust this sleep interval if necessary
 
-def kill_program_by_name(program_name):
-    try:
-        # Get the PIDs of the program using pidstat, grep, and awk
-        cmd = f"pidstat | grep {program_name} | awk '{{print $4}}'"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+def kill_process(target):
+    def _by_pid(pid):
+        try:
+            subprocess.run(['kill', '-9', pid], check=True)
+            print(f"Killed process with PID: {pid}")
+        except OSError as e:
+            print(f"Error killing process with PID {pid}: {e}")
 
-        # Check if any PIDs were found
-        if result.returncode != 0 or not result.stdout.strip():
-            print(f"No processes found for program: {program_name}")
-            return
+    def _by_name(program_name):
+        try:
+            # Find PIDs for the program name using pidstat and grep
+            result = subprocess.run(f"pidstat | grep {program_name} | awk '{{print $4}}'", shell=True, capture_output=True, text=True)
+            # Check if any PIDs were found
+            if result.returncode != 0 or not result.stdout.strip():
+                print(f"No processes found for program: {program_name}")
+                return
+            # Split the output by lines to get each PID
+            pids = result.stdout.strip().split('\n')
+            for pid in pids:
+                _by_pid(pid)
+        except Exception as e:
+            print(f"Error finding/killing processes by name '{program_name}': {e}")
 
-        # Split the output by lines to get each PID
-        pids = result.stdout.strip().split('\n')
+    def _by_obj(daemon_process):
+        if isinstance(daemon_process, subprocess.Popen):
+            _by_pid(daemon_process.pid)
+        else:
+            print(f"Invalid Popen object: {daemon_process}")
 
-        for pid in pids:
-            # Kill each PID with -9 signal
-            try:
-                subprocess.run(['kill', '-9', pid], check=True)
-                print(f"Killed process {program_name} with PID: {pid}")
-            except subprocess.CalledProcessError as e:
-                pass
-                # print(f"On program {program_name}. Failed to kill process with PID: {pid}.")
+    def handle_target(target):
+        # Handle each type of target: int/str (PID), subprocess.Popen, or program name (str)
+        if isinstance(target, int) or (isinstance(target, str) and target.isdigit()):
+            _by_pid(target)  # If the target is a PID
+        elif isinstance(target, subprocess.Popen):
+            _by_obj(target)  # If the target is a Popen object
+        elif isinstance(target, str):
+            _by_name(target)  # If the target is a program name
+        else:
+            print(f"Unsupported target type: {type(target)}")
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    # Process a single item or list
+    if isinstance(target, list):
+        for item in target:
+            handle_target(item)
+    else:
+        handle_target(target)
+
+def read_config(file_path):
+    config = {}
+    with open(file_path) as f:
+        for line in f:
+            if line.strip() and not line.startswith('#'):  # Ignore empty lines and comments
+                key, value = line.strip().split('=', 1)
+                config[key.strip()] = value.strip()
+    return config
+
 
 if __name__ == "__main__":
-    sipp_server = "root@192.168.21.57"
-    sipp_client = "root@192.168.21.56"
+    config = read_config('.env')
+    project_dir = os.getcwd()
 
-    project_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-    
-    # Path to the PID file
-    pid_file_path = "/root/saeedm/rtpengine.pid"
-    log_file_path = "/root/saeedm/rtpengine.log"  # Path to rtpengine.log
+    log_file_path = f"{project_dir}/rtpengine.log"  # Path to rtpengine.log
 
     if len(sys.argv) < 2:
         print("input call count")
@@ -120,18 +128,15 @@ if __name__ == "__main__":
     
 
     for n in range(int(a),int(b),100):
-        # kill_program_by_name("kamailio")
-        # kill_program_by_name("rtpengine")
+        # kill_process("kamailio")
+        # kill_process("rtpengine")
         # time.sleep(8)
-
-        # rtpengine_command = "./daemon/rtpengine --foreground --config-file ./etc/rtpengine.conf --no-fallback --pidfile=rtpengine.pid > ./rtpengine.log 2>&1".split()
-        # rtpengine_dir = os.path.expanduser("/root/projects/rtpengine/rtpengine")
-        # rtpengine_process = run_daemon(rtpengine_command, rtpengine_dir)
+        #
+        # rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
+        # rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
         # time.sleep(5)
-
-        # kamailio_command = "docker compose up".split()
-        # kamailio_dir = os.path.expanduser("/root/projects/resaa-pcscf")
-        # kamailio_process = run_daemon(kamailio_command, kamailio_dir)
+        #
+        # kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
         # time.sleep(15)
 
 
@@ -143,20 +148,17 @@ if __name__ == "__main__":
         log_thread.daemon = True
         log_thread.start()
 
-        # Read the PID from the file
-        rtpengine_pid = get_pid_from_file(pid_file_path)
+        rtpengine_pid = subprocess.run(f"pidstat | grep rtpengine | awk '{{print $4}}'", shell=True, capture_output=True, text=True)
 
         if not rtpengine_pid:
-            print("RTPengine PID not found. Unable to start pidstat.")
+            print("RTPengine PID not found. Unable to start the test.")
             exit(0)
-
 
 
         # If the PID is found, proceed with pidstat
         pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-        pidstat_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        pidstat_log_file = os.path.join(pidstat_dir, f"test{test_id}_usage.log")
-        pidstat_process = run_daemon(pidstat_command, pidstat_dir, log_file=pidstat_log_file)
+        pidstat_log_file = os.path.join(project_dir, f"test{test_id}_usage.log")
+        pidstat_process = run_daemon(pidstat_command, project_dir, log_file=pidstat_log_file)
         time.sleep(3)
 
 
@@ -164,42 +166,34 @@ if __name__ == "__main__":
 
         tcpdump_log_file = f"test{test_id}_capture.pcap"
         tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
-        tcpdump_dir = os.path.expanduser("/root/projects/rtpengine_performance_test")
-        tcpdump_process = run_daemon(tcpdump_command, tcpdump_dir)
+        tcpdump_process = run_daemon(tcpdump_command, project_dir)
         time.sleep(3)
 
 
         # Run remote commands
-        server_command = ["./server-performance.sh", str(n)]
-        sipp_dir = os.path.expanduser("/root/saeedm/performance-test")
-        server_process = run_remote_daemon(server_command, sipp_server, "a", working_directory=sipp_dir)
+        server_command = f"{config["SIPP_SERVER_CMD"]} {n}".split()
+        server_process = run_remote_daemon(server_command,
+                                           f"{config["SIPP_SERVER_USER"]}@{config["SIPP_SERVER"]}",
+                                           config["SIPP_SERVER_PASSWORD"], working_directory=config["SIPP_SERVER_DIR"])
         time.sleep(3)
 
-        client_command = ["./client-performance.sh", str(n)]
-        # client_command = "./sipp -sf client.xml -inf p1.csv 192.168.100.45:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 50s -r 20 -rp 1s -m 2000".split()
-        client_process = run_remote_daemon(client_command, sipp_client, "a", working_directory=sipp_dir)
+        client_command = f"{config["SIPP_CLIENT_CMD"]} {n}".split()
+        client_process = run_remote_daemon(client_command,
+                                           f"{config["SIPP_CLIENT_USER"]}@{config["SIPP_CLIENT"]}",
+                                           config["SIPP_CLIENT_PASSWORD"], working_directory=config["SIPP_CLIENT_DIR"])
         time.sleep(3)
 
-        # Wait for client command to finish
+        # Wait for client process to finish
         print("Waiting for the client process to complete...")
         client_process.wait()  # Block until client_command finishes
 
         print(f"Stopping pidstat... Logs saved in {pidstat_log_file}")
-        stop_daemon(pidstat_process)
+        kill_process(pidstat_process)
         time.sleep(3)
-
 
         print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
-        stop_daemon(tcpdump_process)
+        kill_process(tcpdump_process)
         time.sleep(3)
-
-
-
-        # quality_config = QualityConfig(packets=20, lost_percent=0.5, jitter=30.0)
-        # # report = analyze_pcap(f"tcpdump_log_file", quality_config)
-
-        # print("--------------------")
-        # print(report)
 
     
 
