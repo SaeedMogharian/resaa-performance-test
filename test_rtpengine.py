@@ -55,7 +55,7 @@ def check_rtpengine_log(log_file):
 def kill_process(target):
     def _by_pid(pid):
         try:
-            subprocess.run(['kill', '-9', pid], check=True)
+            subprocess.run(['kill', '-9', str(pid)], check=True)
             print(f"Killed process with PID: {pid}")
         except OSError as e:
             print(f"Error killing process with PID {pid}: {e}")
