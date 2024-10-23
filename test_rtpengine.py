@@ -110,8 +110,9 @@ def read_config(file_path):
 
 
 if __name__ == "__main__":
-    config = read_config('.env')
     project_dir = os.getcwd()
+    config = read_config(f'{project_dir}/.env')
+
 
     print(config)
 
