@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
         # If the PID is found, proceed with pidstat
         pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-        pidstat_log_file = os.path.join(project_dir, f"test{test_id}_usage.log")
+        pidstat_log_file = f"{project_dir}/test{test_id}_usage.log"
         pidstat_process = run_daemon(pidstat_command, project_dir, log_file=pidstat_log_file)
         time.sleep(3)
 
