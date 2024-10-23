@@ -36,18 +36,17 @@ def process_pidstat_total_cpu(file_path, threshold=10.0):
     return df
 
 # Function to plot total CPU usage comparison
-def plot_total_cpu_comparison(df1, df2=None):
-    df1, label1 = df1
-
+def plot_total_cpu_comparison(dataset):
     plt.figure(figsize=(10, 6))
 
+    n = len(dataset)
+    # Use a built-in color map (e.g., 'tab10' has 10 distinct colors)
+    colors = plt.cm.tab10.colors
     # Plot total CPU usage for the first log file
-    plt.plot(df1.index, df1['total_cpu'], label=f'{label1} total CPU', color='blue')
-
-    if df2[0] is not None:
-        # Plot total CPU usage for the second log file
-        df2, label2 = df2
-        plt.plot(df2.index, df2['total_cpu'], label=f'{label2} total CPU', color='green')
+    for i in range(n):
+        y = [val + i for val in range(n)]
+        dt = dataset[i]
+        plt.plot(dt.index, dt['total_cpu'], label=f'Log {i} total CPU', color=colors[i % len(colors)])
 
 
     # Formatting the plot
@@ -66,22 +65,17 @@ if __name__=="__main__":
         print("input log file")
         sys.exit(1)
     
-    log_file1 = "t2500_usage.log"
-    df1_total_cpu = process_pidstat_total_cpu(log_file1, threshold=10.0)
+    log_files = sys.argv[1:]
+    # log_files = ['.\\t2500\\t2500.log']
 
-    df2_total_cpu = None
-    try:
-        log_file2 = sys.argv[2]
-        df2_total_cpu = process_pidstat_total_cpu(log_file2, threshold=10.0)
-    except IndexError:
-        df2_total_cpu = None
-        pass
+    print(log_files)
+
+    dfl = []
+    for d in log_files:
+        df_total_cpu = process_pidstat_total_cpu(d, threshold=10.0)
+        dfl.append(df_total_cpu)
 
 
-    plot_total_cpu_comparison((df1_total_cpu, "Log File 1"), (df2_total_cpu, "Log File 2"))
+    plot_total_cpu_comparison(dfl)
         
-    # Process the two pidstat log files for total CPU usage
-    
 
-    # Plot the total CPU usage comparison
-    

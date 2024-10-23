@@ -166,7 +166,7 @@ if __name__ == "__main__":
         print(f"Testing on n={n}")
 
         tcpdump_log_file = f"test{test_id}_capture.pcap"
-        tcpdump_command = ["tcpdump", "-i",  "any",  "-w", tcpdump_log_file ]
+        tcpdump_command = ["tcpdump", "-i",  "ens192",  "-w", tcpdump_log_file ]
         tcpdump_process = run_daemon(tcpdump_command, project_dir)
         time.sleep(3)
 
