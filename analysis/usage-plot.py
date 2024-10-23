@@ -44,12 +44,11 @@ def plot_total_cpu_comparison(df1, df2=None):
     # Plot total CPU usage for the first log file
     plt.plot(df1.index, df1['total_cpu'], label=f'{label1} total CPU', color='blue')
 
-    try:
+    if df2[0] is not None:
         # Plot total CPU usage for the second log file
         df2, label2 = df2
         plt.plot(df2.index, df2['total_cpu'], label=f'{label2} total CPU', color='green')
-    except:
-        pass
+
 
     # Formatting the plot
     plt.xlabel('Log Entry (Step)')
@@ -67,17 +66,19 @@ if __name__=="__main__":
         print("input log file")
         sys.exit(1)
     
-    log_file1 = sys.argv[1]
+    log_file1 = "t2500_usage.log"
     df1_total_cpu = process_pidstat_total_cpu(log_file1, threshold=10.0)
 
+    df2_total_cpu = None
     try:
         log_file2 = sys.argv[2]
         df2_total_cpu = process_pidstat_total_cpu(log_file2, threshold=10.0)
-    except:
+    except IndexError:
         df2_total_cpu = None
+        pass
 
 
-        plot_total_cpu_comparison((df1_total_cpu, "Log File 1"), (df2_total_cpu, "Log File 2"))
+    plot_total_cpu_comparison((df1_total_cpu, "Log File 1"), (df2_total_cpu, "Log File 2"))
         
     # Process the two pidstat log files for total CPU usage
     

@@ -33,25 +33,6 @@ def run_daemon(command, working_directory, log_file=None):
     print(f"Daemon process {' '.join(command)} executed in directory {working_directory}")
     return daemon_process
 
-# Function to stop the daemon process
-def check_rtpengine_log(log_file):
-    """Monitor the rtpengine.log file for new content."""
-    with open(log_file, "r") as logs:
-        # Move the cursor to the end of the file
-        logs.seek(0, os.SEEK_END)
-
-        while True:
-            line = logs.readline()
-            if line:
-                print("\n\ntest is failed and aborted: ", line.strip())
-                # Abort the test by terminating the program
-                kill_process("kamailio")
-                kill_process("rtpengine")
-                kill_process("tcpdump")
-                kill_process("pidstat")
-                os._exit(1)  # This forcefully exits all threads and processes
-            time.sleep(1)  # Adjust this sleep interval if necessary
-
 def kill_process(target):
     def _by_pid(pid):
         try:
@@ -99,6 +80,25 @@ def kill_process(target):
     else:
         handle_target(target)
 
+# Function to stop the daemon process
+def check_rtpengine_log(log_file):
+    """Monitor the rtpengine.log file for new content."""
+    with open(log_file, "r") as logs:
+        # Move the cursor to the end of the file
+        logs.seek(0, os.SEEK_END)
+
+        while True:
+            line = logs.readline()
+            if line:
+                print("\n\ntest is failed and aborted: ", line.strip())
+                # Abort the test by terminating the program
+                kill_process("kamailio")
+                kill_process("rtpengine")
+                kill_process("tcpdump")
+                kill_process("pidstat")
+                os._exit(1)  # This forcefully exits all threads and processes
+            time.sleep(1)  # Adjust this sleep interval if necessary
+
 def read_config(file_path):
     config = {}
     with open(file_path) as f:
@@ -111,10 +111,7 @@ def read_config(file_path):
 
 if __name__ == "__main__":
     project_dir = os.getcwd()
-    config = read_config(f'{project_dir}/.env')
-
-
-    print(config)
+    config = read_config(f'{project_dir}/config')
 
     log_file_path = f"{project_dir}/rtpengine.log"  # Path to rtpengine.log
 
@@ -131,16 +128,16 @@ if __name__ == "__main__":
     
 
     for n in range(int(a),int(b),100):
-        kill_process("kamailio")
-        kill_process("rtpengine")
-        time.sleep(8)
+        # kill_process("kamailio")
+        # kill_process("rtpengine")
+        # time.sleep(8)
 
-        rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
-        rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
-        time.sleep(5)
+        # rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
+        # rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
+        # time.sleep(5)
 
-        kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
-        time.sleep(15)
+        # kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
+        # time.sleep(15)
 
 
         test_id = n

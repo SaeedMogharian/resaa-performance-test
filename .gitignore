@@ -6,3 +6,5 @@
 *.csv
 /venv/
 .env
+config
+*.png
