@@ -174,16 +174,16 @@ if __name__ == "__main__":
 
 
         # Run remote commands
-        server_command = f"{config["SIPP_SERVER_CMD"]} {n}".split()
+        server_command = f"{config['SIPP_SERVER_CMD']} {n}".split()
         server_process = run_remote_daemon(server_command,
-                                           f"{config["SIPP_SERVER_USER"]}@{config["SIPP_SERVER"]}",
-                                           config["SIPP_SERVER_PASSWORD"], working_directory=config["SIPP_SERVER_DIR"])
+                                           f"{config['SIPP_SERVER_USER']}@{config['SIPP_SERVER']}",
+                                           config['SIPP_SERVER_PASSWORD'], working_directory=config['SIPP_SERVER_DIR'])
         time.sleep(3)
 
-        client_command = f"{config["SIPP_CLIENT_CMD"]} {n}".split()
+        client_command = f"{config['SIPP_CLIENT_CMD']} {n}".split()
         client_process = run_remote_daemon(client_command,
-                                           f"{config["SIPP_CLIENT_USER"]}@{config["SIPP_CLIENT"]}",
-                                           config["SIPP_CLIENT_PASSWORD"], working_directory=config["SIPP_CLIENT_DIR"])
+                                           f"{config['SIPP_CLIENT_USER']}@{config['SIPP_CLIENT']}",
+                                           config['SIPP_CLIENT_PASSWORD'], working_directory=config['SIPP_CLIENT_DIR'])
         time.sleep(3)
 
         # Wait for client process to finish
