@@ -152,7 +152,7 @@ if __name__ == "__main__":
         log_thread.start()
 
         res = subprocess.run(f"pidstat | grep rtpengine | awk '{{print $4}}'", shell=True, capture_output=True, text=True)
-        rtpengine_pid = res.stdout.strip().split('\n')
+        rtpengine_pid = str(res.stdout.strip().split('\n')[0])
 
         if not rtpengine_pid:
             print("RTPengine PID not found. Unable to start the test.")
