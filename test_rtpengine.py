@@ -118,83 +118,64 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("input call count")
         sys.exit(1)
-    a = sys.argv[1]
-
-    try:
-        b = sys.argv[2] 
-    except:
-        b = str(int(a)+1)
-
-    
-
-    for n in range(int(a),int(b),100):
-        # kill_process("kamailio")
-        # kill_process("rtpengine")
-        # time.sleep(8)
-
-        # rtpengine_command = (config["RTPENGINE_CMD"]+ f" > {log_file_path} 2>&1").split()
-        # rtpengine_process = run_daemon(rtpengine_command, config["RTPENGINE_DIR"])
-        # time.sleep(5)
-
-        # kamailio_process = run_daemon(config["KAMAILIO_CMD"].split(), config["KAMAILIO_DIR"])
-        # time.sleep(15)
+    n = sys.argv[1]
 
 
-        test_id = n
-        
-
-        # Start a thread to monitor the rtpengine log file
-        log_thread = Thread(target=check_rtpengine_log, args=(log_file_path,))
-        log_thread.daemon = True
-        log_thread.start()
-
-        res = subprocess.run(f"pidstat | grep rtpengine | awk '{{print $4}}'", shell=True, capture_output=True, text=True)
-        rtpengine_pid = str(res.stdout.strip().split('\n')[0])
-
-        if not rtpengine_pid:
-            print("RTPengine PID not found. Unable to start the test.")
-            exit(0)
+    test_id = n
 
 
-        # If the PID is found, proceed with pidstat
-        pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-        pidstat_log_file = f"{project_dir}/test{test_id}.log"
-        pidstat_process = run_daemon(pidstat_command, project_dir, log_file=pidstat_log_file)
-        time.sleep(3)
+    # Start a thread to monitor the rtpengine log file
+    log_thread = Thread(target=check_rtpengine_log, args=(log_file_path,))
+    log_thread.daemon = True
+    log_thread.start()
+
+    res = subprocess.run(f"pidstat | grep rtpengine | awk '{{print $4}}'", shell=True, capture_output=True, text=True)
+    rtpengine_pid = str(res.stdout.strip().split('\n')[0])
+
+    if not rtpengine_pid:
+        print("RTPengine PID not found. Unable to start the test.")
+        exit(0)
 
 
-        print(f"Testing on n={n}")
+    # If the PID is found, proceed with pidstat
+    pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
+    pidstat_log_file = f"{project_dir}/test{test_id}.log"
+    pidstat_process = run_daemon(pidstat_command, project_dir, log_file=pidstat_log_file)
+    time.sleep(3)
 
-        tcpdump_log_file = f"test{test_id}.pcap"
-        tcpdump_command = ["tcpdump", "-i",  "ens192",  "-w", tcpdump_log_file ]
-        tcpdump_process = run_daemon(tcpdump_command, project_dir)
-        time.sleep(3)
+
+    print(f"Testing on n={n}")
+
+    tcpdump_log_file = f"test{test_id}.pcap"
+    tcpdump_command = ["tcpdump", "-i",  "ens192",  "-w", tcpdump_log_file ]
+    tcpdump_process = run_daemon(tcpdump_command, project_dir)
+    time.sleep(3)
 
 
-        # Run remote commands
-        server_command = f"{config['SIPP_SERVER_CMD']} {n}".split()
-        server_process = run_remote_daemon(server_command,
-                                           f"{config['SIPP_SERVER_USER']}@{config['SIPP_SERVER']}",
-                                           config['SIPP_SERVER_PASSWORD'], working_directory=config['SIPP_SERVER_DIR'])
-        time.sleep(3)
+    # Run remote commands
+    server_command = f"{config['SIPP_SERVER_CMD']} {n}".split()
+    server_process = run_remote_daemon(server_command,
+                                       f"{config['SIPP_SERVER_USER']}@{config['SIPP_SERVER']}",
+                                       config['SIPP_SERVER_PASSWORD'], working_directory=config['SIPP_SERVER_DIR'])
+    time.sleep(3)
 
-        client_command = f"{config['SIPP_CLIENT_CMD']} {n}".split()
-        client_process = run_remote_daemon(client_command,
-                                           f"{config['SIPP_CLIENT_USER']}@{config['SIPP_CLIENT']}",
-                                           config['SIPP_CLIENT_PASSWORD'], working_directory=config['SIPP_CLIENT_DIR'])
-        time.sleep(3)
+    client_command = f"{config['SIPP_CLIENT_CMD']} {n}".split()
+    client_process = run_remote_daemon(client_command,
+                                       f"{config['SIPP_CLIENT_USER']}@{config['SIPP_CLIENT']}",
+                                       config['SIPP_CLIENT_PASSWORD'], working_directory=config['SIPP_CLIENT_DIR'])
+    time.sleep(3)
 
-        # Wait for client process to finish
-        print("Waiting for the client process to complete...")
-        client_process.wait()  # Block until client_command finishes
+    # Wait for client process to finish
+    print("Waiting for the client process to complete...")
+    client_process.wait()  # Block until client_command finishes
 
-        print(f"Stopping pidstat... Logs saved in {pidstat_log_file}")
-        kill_process(pidstat_process)
-        time.sleep(3)
+    print(f"Stopping pidstat... Logs saved in {pidstat_log_file}")
+    kill_process(pidstat_process)
+    time.sleep(3)
 
-        print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
-        kill_process(tcpdump_process)
-        time.sleep(3)
+    print(f"Stopping tcpdump... Saved in {tcpdump_log_file}")
+    kill_process(tcpdump_process)
+    time.sleep(3)
 
     
 
