@@ -35,19 +35,19 @@ def process_pidstat_total_cpu(file_path, threshold=10.0):
 
     return df
 
-# Function to plot total CPU usage comparison
-def plot_total_cpu_comparison(dataset):
+
+# Function to plot and save total CPU usage comparison
+def plot_total_cpu_comparison(dataset, names):
     plt.figure(figsize=(10, 6))
 
     n = len(dataset)
     # Use a built-in color map (e.g., 'tab10' has 10 distinct colors)
     colors = plt.cm.tab10.colors
-    # Plot total CPU usage for the first log file
+    # Plot total CPU usage for each log file
     for i in range(n):
         y = [val + i for val in range(n)]
         dt = dataset[i]
         plt.plot(dt.index, dt['total_cpu'], label=f'Log {i} total CPU', color=colors[i % len(colors)])
-
 
     # Formatting the plot
     plt.xlabel('Log Entry (Step)')
@@ -56,26 +56,27 @@ def plot_total_cpu_comparison(dataset):
     plt.legend()
     plt.grid(True)
 
-    # Show the plot
+    # Save the plot as a PNG file
     plt.tight_layout()
-    plt.show()
+    output_path = "-".join([name[:-3]+"png" for name in names])
+    plt.savefig(output_path, format='png')
+    print(f"Plot saved as {output_path}")
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("input log file")
         sys.exit(1)
-    
+
     log_files = sys.argv[1:]
     # log_files = ['.\\t2500\\t2500.log']
 
-    print(log_files)
+    # print(log_files)
 
     dfl = []
     for d in log_files:
         df_total_cpu = process_pidstat_total_cpu(d, threshold=10.0)
         dfl.append(df_total_cpu)
 
-
-    plot_total_cpu_comparison(dfl)
-        
-
+    # Save the plot instead of showing it
+    plot_total_cpu_comparison(dfl, names=log_files)

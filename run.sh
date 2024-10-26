@@ -29,3 +29,6 @@ if [ $? -ne 0 ]; then
   echo "Error: failed to remove test$n.pcap."
   exit 1
 fi
+
+#mv "test$n* ./test/"
+#pythoh

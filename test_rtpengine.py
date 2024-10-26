@@ -113,7 +113,7 @@ if __name__ == "__main__":
     project_dir = os.getcwd()
     config = read_config(f'{project_dir}/config')
 
-    log_file_path = f"{project_dir}/rtpengine.log"  # Path to rtpengine.log
+    log_file_path = f"{config["RTPENGINE_DIR"]}/rtpengine.log"  # Path to rtpengine.log
 
     if len(sys.argv) < 2:
         print("input call count")
