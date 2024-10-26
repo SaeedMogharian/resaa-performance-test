@@ -158,14 +158,14 @@ if __name__ == "__main__":
 
         # If the PID is found, proceed with pidstat
         pidstat_command = ["pidstat", "-p", rtpengine_pid, "1"]
-        pidstat_log_file = f"{project_dir}/test{test_id}_usage.log"
+        pidstat_log_file = f"{project_dir}/test{test_id}.log"
         pidstat_process = run_daemon(pidstat_command, project_dir, log_file=pidstat_log_file)
         time.sleep(3)
 
 
         print(f"Testing on n={n}")
 
-        tcpdump_log_file = f"test{test_id}_capture.pcap"
+        tcpdump_log_file = f"test{test_id}.pcap"
         tcpdump_command = ["tcpdump", "-i",  "ens192",  "-w", tcpdump_log_file ]
         tcpdump_process = run_daemon(tcpdump_command, project_dir)
         time.sleep(3)
