@@ -30,5 +30,5 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-#mv "test$n* ./test/"
+mv "test$n* ./test/"
 #pythoh
