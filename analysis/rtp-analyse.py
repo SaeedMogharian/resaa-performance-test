@@ -88,7 +88,7 @@ def analyze_stream(data_frame, quality_config: QualityConfig):
 
 
 def is_pass_test(report: AnalyzeReportStream):
-    if report.jitter == 0 and report.lost == 0 and report.fail <= 0.1*report.all:
+    if report.jitter == 0 and report.lost == 0 and report.fail <= 0.01*report.all:
         return True
     return False
 

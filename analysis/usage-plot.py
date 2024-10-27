@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
+import os
 
 # Function to read and process a pidstat log file for total CPU usage
 def process_pidstat_total_cpu(file_path, threshold=10.0):
@@ -47,7 +48,7 @@ def plot_total_cpu_comparison(dataset, names):
     for i in range(n):
         y = [val + i for val in range(n)]
         dt = dataset[i]
-        plt.plot(dt.index, dt['total_cpu'], label=f'Log {i} total CPU', color=colors[i % len(colors)])
+        plt.plot(dt.index, dt['total_cpu'], label=f'Log {os.path.basename(names[i]).split('.')[0]}', color=colors[i % len(colors)])
 
     # Formatting the plot
     plt.xlabel('Log Entry (Step)')
@@ -58,7 +59,7 @@ def plot_total_cpu_comparison(dataset, names):
 
     # Save the plot as a PNG file
     plt.tight_layout()
-    output_path = "-".join([name[:-3]+"png" for name in names])
+    output_path = '-'.join([os.path.basename(name).split('.')[0] for name in names]) + '.png'
     plt.savefig(output_path, format='png')
     print(f"Plot saved as {output_path}")
 
@@ -69,7 +70,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     log_files = sys.argv[1:]
-    # log_files = ['.\\t2500\\t2500.log']
+    # log_files = ['.\\t2500\\t2500.log', '.\\t2500\\t2600.log' ,'.\\t2500\\t2700.log' ]
 
     # print(log_files)
 
