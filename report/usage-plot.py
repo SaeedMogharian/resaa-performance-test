@@ -59,7 +59,7 @@ def plot_total_cpu_comparison(dataset, names):
 
     # Save the plot as a PNG file
     plt.tight_layout()
-    output_path = '-'.join([os.path.basename(name).split('.')[0] for name in names]) + '.png'
+    output_path = '-'.join([os.path.splitext(os.path.basename(path))[0] for path in names]) + '.png'
     plt.savefig(output_path, format='png')
     print(f"Plot saved as {output_path}")
 

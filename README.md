@@ -98,14 +98,22 @@ Test Pass
 - analyze the quality and plot the usage. and manage output files
 
 
-Packer loss in RTP streams are too high
+
+# Issues
+
+# on quality test
+
+- Packet loss in RTP streams are too high
 -> changing network adapter to test
 on range 100
-changing all commands from `192.168.21.*` to `192.168.100.*`
+changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh commands)
 - kamailio.cfg
 - rtprngine.conf
 - rtpengine_test.sh & server-performance.sh
 - test_rtpengine.py
+
+- We need to tune the OS for high packet handling
+- Handling tests with python or bash script causes more packet loss and limit on packet receive!! (4097 valid streams)
 
 
 for saving `rtpengine` output
@@ -116,4 +124,12 @@ for saving `rtpengine` output
 `python3 analysis/rtp-analyse.py test900_capture.pcap > test900_res.txt`
 
 
+
+
+
+
 ------------- We need to tune the os for high packet
+
+
+مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
+تفاوت کیفیت با تست دستی حتی در بش اسکریپت!!!
