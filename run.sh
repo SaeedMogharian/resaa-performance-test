@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Check if an argument is provided
-#if [ -z "$1" ]; then
-#  echo "Usage: $0 <argument>"
-#  exit 1
-#fi
-#
-## Store the argument in a variable
-#n=$1
-#echo "Argument received: $n"
-#
+if [ -z "$1" ]; then
+  echo "Usage: $0 <argument>"
+  exit 1
+fi
+
+# Store the argument in a variable
+n=$1
+echo "Argument received: $n"
+
 ## Run the first Python file with the argument
 #echo "Running test_rtpengine.py with argument $n..."
 #python3 test_rtpengine.py "$n"
