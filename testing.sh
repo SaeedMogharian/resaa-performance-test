@@ -3,9 +3,9 @@
 # Get a number input from the user
 read -p "Enter a number: " n
 
-# Get the password for SSH
-read -sp "Enter SSH password: " ssh_password
-echo
+## Get the password for SSH
+#read -sp "Enter SSH password: " ssh_password
+#echo
 
 # Find the PID of the rtpengine process
 RTPENGINE_PID=$(pidstat | grep rtpengine | awk '{print $4}')
@@ -51,12 +51,12 @@ PIDSTAT_PID=$!
 
 # Run the first SSH command in the background
 echo "Starting first remote command on 192.168.21.57 in the background..."
-sshpass -p "$ssh_password" ssh -o StrictHostKeyChecking=no user@192.168.21.57 "cd /root/projects/soroush.m/performance-test/ && ./server-performance.sh ${n}" &
+sshpass -p "a" ssh -o StrictHostKeyChecking=no root@192.168.21.57 "cd /root/projects/soroush.m/performance-test/ && ./server-performance.sh ${n}" &
 BACKGROUND_SSH_PID=$!
 
 # Run the second SSH command and wait for it to complete
 echo "Starting main remote command on 192.168.21.56..."
-sshpass -p "$ssh_password" ssh -o StrictHostKeyChecking=no user@192.168.21.56 "cd /root/projects/soroush.m/performance-test/ && ./client-performance.sh ${n}"
+sshpass -p "a" ssh -o StrictHostKeyChecking=no root@192.168.21.56 "cd /root/projects/soroush.m/performance-test/ && ./client-performance.sh ${n}"
 echo "Main remote command completed."
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
