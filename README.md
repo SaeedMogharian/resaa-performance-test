@@ -93,6 +93,8 @@ Test Pass
 - we capture the cpu usage for performance assess and network capture for call quality assessment.
 - monitor the rtpengine log 
 
+- It's needed to create a file as `config` from `config.example` to specify the test configuration
+
 `run.sh`
 - run the `test_rtpengine.py` to test and capture the output
 - analyze the quality and plot the usage. and manage output files
