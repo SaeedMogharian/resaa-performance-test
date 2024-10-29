@@ -128,7 +128,7 @@ for saving `rtpengine` output
 
 
 
-------------- We need to tune the os for high packet
+------------- We need to tune the os for high packet -> high packer loss
 
 
 مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
