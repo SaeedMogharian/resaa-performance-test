@@ -113,23 +113,39 @@ changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh comm
 - test_rtpengine.py
 
 - We need to tune the OS for high packet handling
-- Handling tests with python or bash script causes more packet loss and limit on packet receive!! (4097 valid streams)
-
-
-for saving `rtpengine` output
-
-`pidstat -C "kamailio|rtpengine" 1`
- 
-
-`python3 analysis/rtp-analyse.py test900_capture.pcap > test900_res.txt`
-
-
-
-
-
-
-------------- We need to tune the os for high packet -> high packer loss
-
-
-مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
+- Handling tests with python or bash script causes more packet loss and limit on packet receive!! (4097 valid streams). مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
 تفاوت کیفیت با تست دستی حتی در بش اسکریپت!!!
+
+
+# Report
+![[Q-All Streams.png]]
+
+
+
+
+[[Q-Valid Streams.png]]
+[[Q-Failed Calls.png]]
+[[Q-Unpaired SSRCs.png]]
+[[Q-Broken Streams.png]]
+[[Q-Lost Invalid.png]]
+
+![[Q-Jitter Invalid.png]]
+
+![[summary_metrics]]
+
+![[P-700.png]]
+
+![[P-800.png]]
+
+![[P-900.png]]
+
+![[P-1000.png]]
+
+![[P-all.png]]
+
+![[P-k.png]]
+
+![[P-u.png]]
+
+
+
