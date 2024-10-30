@@ -5,12 +5,20 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 1. Clone this [repo](https://github.com/sipwise/rtpengine)
 - Following the instructions in the official [document](https:/rtpengine.readthedocs.io/en/latest/compiling_and_installing.html) for installation:
 2. Install the requirements (You may need to install some packages manually)
-3. `sudo apt-get install pkg-config libglib2.0-dev zlib1g-dev libssl-dev libpcre3-dev libxmlrpc-core-c3-dev libhiredis-dev gperf libcurl4-openssl-dev libevent-dev libpcap-dev libsystemd-dev libspandsp-dev libmariadb-dev libiptc-dev ffmpeg libavcodec-dev libavfilter-dev libswresample-dev libbcg729-0-dev libmosquitto-dev libwebsockets-dev libopus-dev`
-4. At the top directory of `./rtpengine` run `make` (If the requirements are all satisfied, It will build successfully)
-5. If you need to use kernel mode:
-- run `make` in `./rtpengine/kernel-module`
+3. `sudo apt-get update && apt-get install pkg-config libglib2.0-dev zlib1g-dev libssl-dev libpcre3-dev libxmlrpc-core-c3-dev libhiredis-dev gperf libcurl4-openssl-dev libevent-dev libpcap-dev libsystemd-dev libspandsp-dev libiptc-dev ffmpeg libavcodec-dev libavfilter-dev libswresample-dev libbcg729-0-dev libmosquitto-dev libwebsockets-dev libopus-dev`
+	- `E: Unable to locate package libbcg729-0-dev`:: manual install 
+	- `E: Unable to locate package json-glib`:  `apt-get update && apt-get install libjson-glib-dev`
+	- `apt-get install libmysqlclient-dev libmnl-devsudo  libnftnl-dev pandoc`
+	- sudo apt-get update && apt-get install linux-headers-$(uname -r) linux-image-$(uname -r)-dbg
+
+
+1. At the top directory of `./rtpengine` run `make` (If the requirements are all satisfied, It will build successfully)
+2. If you need to use kernel mode:
+- run `make` and `make install` in `./rtpengine/kernel-module`
 - `insmod xt_RTPENGINE.ko`
-- `sudo cp xt_RTPENGINE.ko /lib/modules/$(uname -r)/
+- `sudo cp xt_RTPENGINE.ko /lib/modules/$(uname -r)/`
+- `/lib/modules/$VERSION/updates/`
+- `depmod -a`
 - `sudo modprobe xt_RTPENGINE`
 ## Run
 - Following the instructions in the official [document]( https://rtpengine.readthedocs.io/en/latest/usage.html ) for setup and usage:
@@ -18,6 +26,7 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 - `table = 0` (or any other number for `iptable`/`nftable` on kernel mode)
 - `table = -1` for not allowing kernel module
 - `interface` and `listen-*` parameters should be set according to the machines you are running on
+- change and increase the range `port-min` and `port-max` for handling high level of streams 
 2. At the top directory of `/rtpengine` run `./daemon/rtpengine --foreground --config-file ./etc/rtpengine.conf --pidfile=rtpengine.pid` to run the daemon
 3. To see the status of `rtpengine`. (If the kernel mode is active or not):
 - `ls /procat /proc/rtpengine/0/status` to see the status
@@ -26,8 +35,9 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 - To see rule set on `nftable`: `sudo nft list ruleset` (look for `rtpengine).` (The `XT target RTPENGINE not found` is normal !)
 - To see the rule set on `iptables` : `iptables -L -v -n`
 - To see if the kernel module is loaded: `lsmod | grep xt_RTPENGINE`
-- Attention: running on this mode and not with installed packages and `systemctl`, on stopping the process, `rtpengine` exits. the important logs are displayed where the daemon command is running
-- To check the CPU status of `rtpeninge`: `pidstat -p $(pidstat | grep rtpengine | awk '{print $4}') 1`
+4. Attention: running on this mode and not with pre-build packages and `systemctl`, on stopping the process, `rtpengine` exits. the important logs are displayed where the daemon command is running
+- To check the CPU status of `rtpeninge`: `pidstat -p $(pidstat | grep rtpengine | awk '{print $4}') 1` or `pidstat -C rtpengine`
+
 
   
 
@@ -51,8 +61,7 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 8. wait till sipp is finished and then stop the capture
 
   
-  
-  notice: `ulimit -n 10000` for test on high rates
+
   
 
 ## Performance Test
@@ -118,7 +127,11 @@ changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh comm
 - Handling tests with python or bash script causes more packet loss and limit on packet receive!! (4097 valid streams). مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
 تفاوت کیفیت با تست دستی حتی در بش اسکریپت!!!
 
+each time ssh to the sipp machine `ulimit -n` should be sett again on the sipp machines. and so in the script that we sshpass, we should run `ulimit` to.
 
+## Customization on machines:
+- `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines.
+- 
 # Report
 ![[Q-All Streams.png]]
 

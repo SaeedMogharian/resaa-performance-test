@@ -1,3 +1,4 @@
+https://github.com/sorooshm78/system-telephony?tab=readme-ov-file#linux
 # Linux
 ## Interrupts
 ### Links
@@ -65,7 +66,7 @@ To determine whether your network interface card supports RSS, check whether mul
 
 The preceding output shows that the NIC driver created 6 receive queues for the p1p1 interface (p1p1-0 through p1p1-5). It also shows how many interrupts were processed by each queue, and which CPU serviced the interrupt. In this case, there are 6 queues because by default, this particular NIC driver creates one queue per CPU, and this system has 6 CPUs. This is a fairly common pattern amongst NIC drivers.
 
-Alternatively, you can check the output of ls -1 /sys/devices/*/*/device_pci_address/msi_irqs after the network driver is loaded. For example, if you are interested in a device with a PCI address of 0000:01:00.0, you can list the interrupt request queues of that device with the following command:
+Alternatively, you can check the output of `ls -1 /sys/devices/*/*/device_pci_address/msi_irqs` after the network driver is loaded. For example, if you are interested in a device with a PCI address of 0000:01:00.0, you can list the interrupt request queues of that device with the following command:
 
 ```
 # ls -1 /sys/devices/*/*/0000:01:00.0/msi_irqs
@@ -235,7 +236,7 @@ The general syntax for using ethtool is:
 ```
 ethtool [options] <interface>
 ```
-Where <interface> is the name of the network interface you want to manage, such as eth0, eth1, etc.
+Where `<interface>` is the name of the network interface you want to manage, such as eth0, eth1, etc.
 
 The `-c` and `-C` options in `ethtool` are used to display and configure interrupt coalescing settings for a network interface, respectively.
 
