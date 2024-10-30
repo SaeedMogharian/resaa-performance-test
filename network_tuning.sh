@@ -13,10 +13,11 @@ CPU_MASK=$(printf '%x' $((2**CPU_CORES - 1))) # Hex mask for all available cores
 echo "Detected $CPU_CORES CPU cores. Using CPU mask: $CPU_MASK for IRQ and RPS/RFS settings."
 
 # Increase the maximum number of open file descriptors
+echo "Increasing the limit..."
 ulimit -n 100000
 
 # Set RPS (Receive Packet Steering) and RFS (Receive Flow Steering) parameters
-echo "Configuring RPS and RFS settings..."
+echo "Configuring RPS and RFS settings and IRQ balancing..."
 
 # Set rps_sock_flow_entries to 32768 for moderate server loads
 sysctl -w net.core.rps_sock_flow_entries=32768
