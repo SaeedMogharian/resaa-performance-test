@@ -96,15 +96,16 @@ Test Pass
 
 
 # Testing Script 
-`test_rtpengine.py`
+- `kamailio` & `rtpengine` should be seted up
+- It's needed to create a file as `config` from `config.example` to specify the test configuration
+`testing.sh`
 - get the testing number of concurrent calls and use the SIPP machines to perform the test on the machine that is running on
 - It is assumed that rtpengine and kamailio are running on the same machine as the testing script
 - we capture the cpu usage for performance assess and network capture for call quality assessment.
 - monitor the rtpengine log 
 
-- It's needed to create a file as `config` from `config.example` to specify the test configuration
 
-`run.sh`
+
 - run the `test_rtpengine.py` to test and capture the output
 - analyze the quality and plot the usage. and manage output files
 

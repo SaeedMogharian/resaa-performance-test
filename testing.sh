@@ -3,9 +3,7 @@
 # Get a number input from the user
 read -p "Enter a number: " n
 
-## Get the password for SSH
-#read -sp "Enter SSH password: " ssh_password
-#echo
+source config
 
 # Find the PID of the rtpengine process
 RTPENGINE_PID=$(pidstat | grep rtpengine | awk '{print $4}')
@@ -38,13 +36,13 @@ pidstat -p $RTPENGINE_PID 1 > "test${n}.log" &
 PIDSTAT_PID=$!
 
 # Run the first SSH command in the background
-echo "Starting first remote command on 192.168.21.57 in the background..."
-sshpass -p "a" ssh -o StrictHostKeyChecking=no root@192.168.21.57 "cd /root/projects/soroush.m/performance-test/ && ulimit -n 10000 && ./server-performance.sh ${n}" &
+echo "Starting first remote command on ${SIPP_SERVER} in the background..."
+sshpass -p "${SIPP_SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_SERVER_USER}@${SIPP_SERVER} "cd ${SIPP_SERVER_DIR}  && ulimit -n 10000 && ${SIPP_SERVER_CMD} ${n}" &
 BACKGROUND_SSH_PID=$!
 
 # Run the second SSH command and wait for it to complete
-echo "Starting main remote command on 192.168.21.56..."
-sshpass -p "a" ssh -o StrictHostKeyChecking=no root@192.168.21.56 "cd /root/projects/soroush.m/performance-test/ && ulimit -n 10000 && ./client-performance.sh ${n}"
+echo "Starting main remote command on ${SIPP_CLIENT}..."
+sshpass -p "${SIPP_CLIENT_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_CLIENT_USER}@${SIPP_CLIENT} "cd ${SIPP_CLIENT_DIR} && ulimit -n 10000 && ${SIPP_CLIENT_CMD} ${n}"
 echo "Main remote command completed."
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
@@ -52,7 +50,7 @@ cleanup
 
 # Run the rtp_analyse Python file, redirecting output to "test$n.txt"
 echo "Running rtp-analyse.py with test$n.pcap, outputting to test$n.txt..."
-python3 ./analysis/rtp-analyse.py "test$n.pcap" > "test$n.txt"
+python3 ./rtp-analyse.py "test$n.pcap" > "test$n.txt"
 if [ $? -ne 0 ]; then
   echo "Error: rtp-analyse.py failed."
   exit 1
