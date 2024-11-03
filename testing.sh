@@ -65,3 +65,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "Successfully removed ${n}test.pcap."
+
+
+# TODO: rtpengine log analysis

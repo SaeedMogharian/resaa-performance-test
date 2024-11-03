@@ -111,8 +111,6 @@ Test Pass
 - run the `test_rtpengine.py` to test and capture the output
 - analyze the quality and plot the usage. and manage output files
 
-
-
 # Issues
 
 # on quality test
@@ -134,7 +132,7 @@ Test Pass
 	- `ulimit -n` is temporary configuration. with each terminal session it should be set again
 ## Customization on machines:
 - `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines. (should be 1000*$n. n being the number of your concurrent call)
-- 
+- `network_tuning.sh` for IRQ balancing buffer size change
 # Report
 ![[Q-All Streams.png]]
 
