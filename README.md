@@ -115,22 +115,22 @@ Test Pass
 # on quality test
 
 - Packet loss in RTP streams are too high
--> changing network adapter to test
-on range 100
-changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh commands)
-- kamailio.cfg
-- rtprngine.conf
-- rtpengine_test.sh & server-performance.sh
-- test_rtpengine.py
+	-> changing network interface card to test
+	on range 100
+	changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh commands)
+	- kamailio.cfg
+	- rtprngine.conf
+	- client-performance.sh  & server-performance.sh 
+	- test_rtpengine.py
 
 - We need to tune the OS for high packet handling
 - Handling tests with python or bash script causes more packet loss and limit on packet receive!! (4097 valid streams). مشکل جدی: فیل شدن تست ها بعد ۱۰۰۰ در تستینگ اسکریچت
 تفاوت کیفیت با تست دستی حتی در بش اسکریپت!!!
 
-each time ssh to the sipp machine `ulimit -n` should be sett again on the sipp machines. and so in the script that we sshpass, we should run `ulimit` to.
-
+- Reason: each time ssh to the sipp machine `ulimit -n` should be set again. so in the script that we `sshpass`, we should run `ulimit` too.
+	- `ulimit -n` is temporary configuration. with each terminal session it should be set again
 ## Customization on machines:
-- `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines.
+- `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines. (should be 1000*$n. n being the number of your concurrent call)
 - 
 # Report
 ![[Q-All Streams.png]]

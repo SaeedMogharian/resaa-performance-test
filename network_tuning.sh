@@ -14,7 +14,7 @@ echo "Detected $CPU_CORES CPU cores. Using CPU mask: $CPU_MASK for IRQ and RPS/R
 
 # Increase the maximum number of open file descriptors
 echo "Increasing the limit..."
-ulimit -n 100000
+ulimit -n 1000000
 
 # Set RPS (Receive Packet Steering) and RFS (Receive Flow Steering) parameters
 echo "Configuring RPS and RFS settings and IRQ balancing..."
@@ -64,3 +64,22 @@ cat /proc/interrupts | grep -E "CPU|eth"
 echo "RPS setting for all devices:"
 cat /proc/sys/net/core/rps_sock_flow_entries
 echo "Done. System tuned dynamically for high network load and IRQ balancing."
+
+
+# on /etc/systemctl.conf:
+
+
+# Increase the maximum total buffer-space allocatable
+# This is measured in units of pages (4096 bytes)
+#net.ipv4.tcp_mem = 65536 131072 262144
+#net.ipv4.udp_mem = 65536 131072 262144
+
+# Increase the read-buffer space allocatable
+#net.ipv4.tcp_rmem = 8192 87380 16777216
+#net.core.rmem_default =  30000000
+#net.core.rmem_max = 30000000
+
+# Increase the write-buffer-space allocatable
+#net.ipv4.tcp_wmem = 8192 65536 16777216
+#net.core.wmem_default =  30000000
+#net.core.wmem_max = 30000000

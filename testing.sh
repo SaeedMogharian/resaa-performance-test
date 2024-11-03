@@ -28,18 +28,6 @@ cleanup() {
 # Trap SIGINT (Ctrl+C) and call cleanup
 trap cleanup SIGINT
 
-## Watch for changes in /rtpengine/rtpengine.log and abort if any change is detected
-#echo "Monitoring /rtpengine/rtpengine.log for changes..."
-#tail -F /rtpengine/rtpengine.log | while read -r line; do
-#    echo "Change detected in /rtpengine/rtpengine.log: $line"
-#    cleanup
-#    exit 1
-#done &
-#
-#
-#
-#
-# =$!
 
 # Start tcpdump in the background, saving to test$n.pcap, and save its PID
 tcpdump -i any -w "test${n}.pcap" &
@@ -60,4 +48,22 @@ sshpass -p "a" ssh -o StrictHostKeyChecking=no root@192.168.21.56 "cd /root/proj
 echo "Main remote command completed."
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
-#cleanup
+cleanup
+
+# Run the rtp_analyse Python file, redirecting output to "test$n.txt"
+echo "Running rtp-analyse.py with test$n.pcap, outputting to test$n.txt..."
+python3 ./analysis/rtp-analyse.py "test$n.pcap" > "test$n.txt"
+if [ $? -ne 0 ]; then
+  echo "Error: rtp-analyse.py failed."
+  exit 1
+fi
+echo "Successfully ran rtp-analyse.py, output saved to test$n.txt."
+
+# Remove the file "test$n.pcap"
+echo "Removing test$n.pcap..."
+rm "test$n.pcap"
+if [ $? -ne 0 ]; then
+  echo "Error: failed to remove test$n.pcap."
+  exit 1
+fi
+echo "Successfully removed test$n.pcap."
