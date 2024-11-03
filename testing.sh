@@ -27,12 +27,12 @@ cleanup() {
 trap cleanup SIGINT
 
 
-# Start tcpdump in the background, saving to test$n.pcap, and save its PID
-tcpdump -i any -w "test${n}.pcap" &
+# Start tcpdump in the background, saving to ${n}test.pcap, and save its PID
+tcpdump -i any -w "${n}test.pcap" &
 TCPDUMP_PID=$!
 
-# Start pidstat for rtpengine PID in the background, outputting to test$n.log
-pidstat -p $RTPENGINE_PID 1 > "test${n}.log" &
+# Start pidstat for rtpengine PID in the background, outputting to ${n}test.log
+pidstat -p $RTPENGINE_PID 1 > "${n}test.log" &
 PIDSTAT_PID=$!
 
 # Run the first SSH command in the background
@@ -48,20 +48,20 @@ echo "Main remote command completed."
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
 cleanup
 
-# Run the rtp_analyse Python file, redirecting output to "test$n.txt"
-echo "Running rtp-analyse.py with test$n.pcap, outputting to test$n.txt..."
-python3 ./rtp-analyse.py "test$n.pcap" > "test$n.txt"
+# Run the rtp_analyse Python file, redirecting output to "${n}test.txt"
+echo "Running rtp-analyse.py with ${n}test.pcap, outputting to ${n}test.txt..."
+python3 ./rtp-analyse.py "${n}test.pcap" > "${n}test.txt"
 if [ $? -ne 0 ]; then
   echo "Error: rtp-analyse.py failed."
   exit 1
 fi
-echo "Successfully ran rtp-analyse.py, output saved to test$n.txt."
+echo "Successfully ran rtp-analyse.py, output saved to ${n}test.txt."
 
-# Remove the file "test$n.pcap"
-echo "Removing test$n.pcap..."
-rm "test$n.pcap"
+# Remove the file "${n}test.pcap"
+echo "Removing ${n}test.pcap..."
+rm "${n}test.pcap"
 if [ $? -ne 0 ]; then
-  echo "Error: failed to remove test$n.pcap."
+  echo "Error: failed to remove ${n}test.pcap."
   exit 1
 fi
-echo "Successfully removed test$n.pcap."
+echo "Successfully removed ${n}test.pcap."
