@@ -7,12 +7,8 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 2. Install the requirements (You may need to install some packages manually)
 - `sudo apt-get update && apt-get install pkg-config libglib2.0-dev zlib1g-dev libssl-dev libpcre3-dev libxmlrpc-core-c3-dev libhiredis-dev gperf libcurl4-openssl-dev libevent-dev libpcap-dev libsystemd-dev libspandsp-dev libiptc-dev ffmpeg libavcodec-dev libavfilter-dev libswresample-dev`
 - `apt-get update && apt-get install libmosquitto-dev libwebsockets-dev libopus-dev libmysqlclient-dev pandoc libnftnl-dev libjson-glib-dev libmnl-dev`
-` 
 	- `sudo apt-get update && apt-get install linux-headers-$(uname -r) linux-image-$(uname -r)-dbg`
-	- `E: Unable to locate package libbcg729-0-dev ` :: manual install  
-	
-
-
+	- `E: Unable to locate package libbcg729-0-dev` :: manual install  
 1. At the top directory of `./rtpengine` run `make` (If the requirements are all satisfied, It will build successfully)
 2. If you need to use kernel mode:
 - run `make` and `make install` in `./rtpengine/kernel-module`
@@ -74,7 +70,7 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 
 ## Quality Test
 `rtp-analyse.py`
-- by using `tshark`, analyses the rto streams in the captured pcap, and analyse it for quality.
+- by using `tshark`, analyses the RTP streams in the captured pcap, and analyse it for quality.
 - Sample output: (for n=1000)
 ```
 Creating csv file
@@ -93,6 +89,11 @@ Lost invalid: 0 (>0.5%)
 Test Pass
 ------------------------------
 ```
+
+
+
+
+
 
 
 
@@ -138,29 +139,29 @@ Steps:
 
 
 
-[[Q-Valid Streams.png]]
-[[Q-Failed Calls.png]]
-[[Q-Unpaired SSRCs.png]]
-[[Q-Broken Streams.png]]
-[[Q-Lost Invalid.png]]
+[[report/Q-Valid Streams.png]]
+[[report/Q-Failed Calls.png]]
+[[report/Q-Unpaired SSRCs.png]]
+[[report/Q-Broken Streams.png]]
+[[report/Q-Lost Invalid.png]]
 
-![[Q-Jitter Invalid.png]]
+![[report/Q-Jitter Invalid.png]]
 
-![[summary_metrics]]
+![[report/summary_metrics]]
 
-![[P-700.png]]
+![[report/P-700.png]]
 
-![[P-800.png]]
+![[report/P-800.png]]
 
-![[P-900.png]]
+![[report/P-900.png]]
 
-![[P-1000.png]]
+![[report/P-1000.png]]
 
-![[P-all.png]]
+![[report/P-all.png]]
 
-![[P-k.png]]
+![[report/P-k.png]]
 
-![[P-u.png]]
+![[report/P-u.png]]
 
 
 
