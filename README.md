@@ -5,11 +5,12 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 1. Clone this [repo](https://github.com/sipwise/rtpengine)
 - Following the instructions in the official [document](https:/rtpengine.readthedocs.io/en/latest/compiling_and_installing.html) for installation:
 2. Install the requirements (You may need to install some packages manually)
-3. `sudo apt-get update && apt-get install pkg-config libglib2.0-dev zlib1g-dev libssl-dev libpcre3-dev libxmlrpc-core-c3-dev libhiredis-dev gperf libcurl4-openssl-dev libevent-dev libpcap-dev libsystemd-dev libspandsp-dev libiptc-dev ffmpeg libavcodec-dev libavfilter-dev libswresample-dev libbcg729-0-dev libmosquitto-dev libwebsockets-dev libopus-dev`
-	- `E: Unable to locate package libbcg729-0-dev`:: manual install 
-	- `E: Unable to locate package json-glib`:  `apt-get update && apt-get install libjson-glib-dev`
-	- `apt-get install libmysqlclient-dev libmnl-devsudo  libnftnl-dev pandoc`
-	- sudo apt-get update && apt-get install linux-headers-$(uname -r) linux-image-$(uname -r)-dbg
+- `sudo apt-get update && apt-get install pkg-config libglib2.0-dev zlib1g-dev libssl-dev libpcre3-dev libxmlrpc-core-c3-dev libhiredis-dev gperf libcurl4-openssl-dev libevent-dev libpcap-dev libsystemd-dev libspandsp-dev libiptc-dev ffmpeg libavcodec-dev libavfilter-dev libswresample-dev`
+- `apt-get update && apt-get install libmosquitto-dev libwebsockets-dev libopus-dev libmysqlclient-dev pandoc libnftnl-dev libjson-glib-dev libmnl-dev`
+` 
+	- `sudo apt-get update && apt-get install linux-headers-$(uname -r) linux-image-$(uname -r)-dbg`
+	- `E: Unable to locate package libbcg729-0-dev ` :: manual install  
+	
 
 
 1. At the top directory of `./rtpengine` run `make` (If the requirements are all satisfied, It will build successfully)
