@@ -97,21 +97,19 @@ Test Pass
 
 
 # Testing Script 
-- `kamailio` & `rtpengine` should be seted up
-- It's needed to create a file as `config` from `config.example` to specify the test configuration
-- on the project directory: `chmod +x ./testing.sh`
+Functionality:
+run the test with two sipp machines to capture the cpu usage for performance assess and network capture for call quality assessment.
+
+Steps:
+- `kamailio` & `rtpengine` should be up on the same machine as the testing script
 - `sshpass` and `tshark` should be installed via apt
-`testing.sh`
-- get the testing number of concurrent calls and use the SIPP machines to perform the test on the machine that is running on
-- It is assumed that rtpengine and kamailio are running on the same machine as the testing script
-- we capture the cpu usage for performance assess and network capture for call quality assessment.
-- in python version: monitor the rtpengine log 
-
-
-
-- run the `test_rtpengine.py` to test and capture the output
-- analyze the quality and plot the usage. and manage output files
-
+- python in required and `pandas` need to be installed via pip
+1. install prerequisites: `pip instal panads`
+2. `cp config.example config`
+3. modify config file to match your machine
+4. `chmod +x testing.sh`
+5. `./testing.sh`
+6. input the call count
 # Issues
 
 # on quality test

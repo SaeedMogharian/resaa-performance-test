@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get a number input from the user
-read -p "Enter a number: " n
+read -p "Enter the call number: " n
 
 source config
 
@@ -18,7 +18,7 @@ fi
 cleanup() {
     echo "Stopping tcpdump, pidstat, and remote SSH commands..."
     kill $TCPDUMP_PID $PIDSTAT_PID $WATCH_PID $BACKGROUND_SSH_PID 2>/dev/null
-    sshpass -p "$ssh_password" ssh -o StrictHostKeyChecking=no user@192.168.21.56 "pkill -f run_background_task.sh; pkill -f run_performance_test.sh" 2>/dev/null
+    sshpass -p "$ssh_password" ssh -o StrictHostKeyChecking=no ${SIPP_CLIENT_USER}@${SIPP_CLIENT} "pkill -f run_background_task.sh; pkill -f run_performance_test./sh" 2>/dev/null
     wait $TCPDUMP_PID $PIDSTAT_PID $WATCH_PID 2>/dev/null
     echo "All processes stopped."
 }
