@@ -67,6 +67,15 @@ Other possibly working method to install on Ubuntu: [Link](https://nickvsnetwork
 
 انجام تست‌های مختلف در حالت kernel mode و userspace mode و مقایسه نمودار cpu usage آنها
 
+![P-700](report/P-700.png)
+![P-800](report/P-800.png)
+![P-900](report/P-900.png)
+![P-1000](report/P-1000.png)
+![P-all](report/P-all.png)
+![P-k](report/P-k.png)
+![P-u](report/P-u.png)
+
+
 
 ## Quality Test
 `rtp-analyse.py`
@@ -134,7 +143,6 @@ Steps:
 - `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines. (should be 1000*$n. n being the number of your concurrent call)
 - `network_tuning.sh` for IRQ balancing buffer size change
 # Report
-# Report
 
 ![All Streams](report/Q-All Streams.png)
 ![Valid Streams](report/Q-Valid Streams.png)
@@ -143,13 +151,7 @@ Steps:
 ![Broken Streams](report/Q-Broken Streams.png)
 ![Lost Invalid](report/Q-Lost Invalid.png)
 ![Jitter Invalid](report/Q-Jitter Invalid.png)
-![Summary Metrics](report/summary_metrics.md)
-![P-700](report/P-700.png)
-![P-800](report/P-800.png)
-![P-900](report/P-900.png)
-![P-1000](report/P-1000.png)
-![P-all](report/P-all.png)
-![P-k](report/P-k.png)
-![P-u](report/P-u.png)
 
+
+![Summary Metrics](report/summary_metrics.md)
 
