@@ -37,7 +37,7 @@ PIDSTAT_PID=$!
 
 # Run the first SSH command in the background
 echo "Starting first remote command on ${SIPP_SERVER} in the background..."
-sshpass -p "${SIPP_SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_SERVER_USER}@${SIPP_SERVER} "cd ${SIPP_SERVER_DIR}  && ulimit -n 10000 && ${SIPP_SERVER_CMD} ${n}" &
+sshpass -p "${SIPP_SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_SERVER_USER}@${SIPP_SERVER} "cd ${SIPP_SERVER_DIR} && ulimit -n 10000 && ${SIPP_SERVER_CMD} ${n}" &
 BACKGROUND_SSH_PID=$!
 
 # Run the second SSH command and wait for it to complete
@@ -66,5 +66,6 @@ if [ $? -ne 0 ]; then
 fi
 echo "Successfully removed ${n}test.pcap."
 
+cat "${n}test.txt"
 
 # TODO: rtpengine log analysis
