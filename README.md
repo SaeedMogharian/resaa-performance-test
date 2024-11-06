@@ -139,9 +139,10 @@ Steps:
 
 - Reason: each time ssh to the sipp machine `ulimit -n` should be set again. so in the script that we `sshpass`, we should run `ulimit` too.
 	- `ulimit -n` is temporary configuration. with each terminal session it should be set again
+	- نتایج همچنان تفاوت ریزی در تست با اسکریپت و دستی دارند
 ## Customization on machines:
 - `ulimit -n ${n}` on all machines participating in the test: most importantly the SIPP machines. (should be 1000*$n. n being the number of your concurrent call)
-- `network_tuning.sh` for IRQ balancing buffer size change
+- `network_tuning.sh` for IRQ balancing and buffer size change (remove irqbalance module)
 # Report
 
 ![AllStreams](report/Q-AllStreams.png)
@@ -155,3 +156,6 @@ Steps:
 
 ![Summary Metrics](report/summary_metrics.md)
 
+
+
+# Virtualization 
