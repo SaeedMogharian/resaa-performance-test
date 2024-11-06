@@ -144,13 +144,13 @@ Steps:
 - `network_tuning.sh` for IRQ balancing buffer size change
 # Report
 
-![All Streams](report/Q-All Streams.png)
-![Valid Streams](report/Q-Valid Streams.png)
-![Failed Calls](report/Q-Failed Calls.png)
-![Unpaired SSRCs](report/Q-Unpaired SSRCs.png)
-![Broken Streams](report/Q-Broken Streams.png)
-![Lost Invalid](report/Q-Lost Invalid.png)
-![Jitter Invalid](report/Q-Jitter Invalid.png)
+![AllStreams](report/Q-AllStreams.png)
+[ValidStreams](report/Q-ValidStreams.png)
+[FailedCalls](report/Q-FailedCalls.png)
+[UnpairedSSRCs](report/Q-UnpairedSSRCs.png)
+[BrokenStreams](report/Q-BrokenStreams.png)
+[LostInvalid](report/Q-LostInvalid.png)
+![JitterInvalid](report/Q-JitterInvalid.png)
 
 
 ![Summary Metrics](report/summary_metrics.md)
