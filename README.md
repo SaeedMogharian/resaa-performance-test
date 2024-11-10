@@ -126,7 +126,7 @@ Steps:
 
 - Packet loss in RTP streams are too high
 	-> changing network interface card to test
-	on range 100
+	on range 100 (isolated NIC)
 	changing all commands from `192.168.21.*` to `192.168.100.*` (excluding ssh commands)
 	- kamailio.cfg
 	- rtprngine.conf
