@@ -93,23 +93,26 @@ def is_pass_test(report: AnalyzeReportStream):
     return False
 
 
-def print_report(report: AnalyzeReportStream, quality_config: QualityConfig):
-    print("------------------------------")
-    print(f"All streams: {report.all}")
-    print(f"Valid streams : {report.valid}")
-    print(f"Failed calls: {report.fail} (<{quality_config.stream_percent}% success)")
-    print("------------------------------")
-    print(f"Unpaired SSRCs: {report.unpaired_ssrc}")
-    print(f"Broken streams: {report.broken_packets}")
-    print("------------------------------")
-    print(f"Jitter invalid: {report.jitter} (>{quality_config.jitter})")
-    print(f"Lost invalid: {report.lost} (>{quality_config.lost_percent}%)")
-    print("------------------------------")
+def get_report(report: AnalyzeReportStream, quality_config: QualityConfig):
+    rout = ""
+    rout += "------------------------------\n"
+    rout += f"All streams: {report.all}\n"
+    rout += f"Valid streams : {report.valid}\n"
+    rout += f"Failed calls: {report.fail} (<{quality_config.stream_percent}% success)\n"
+    rout += "------------------------------\n"
+    rout += f"Unpaired SSRCs: {report.unpaired_ssrc}\n"
+    rout += f"Broken streams: {report.broken_packets}\n"
+    rout += "------------------------------\n"
+    rout += f"Jitter invalid: {report.jitter} (>{quality_config.jitter})\n"
+    rout += f"Lost invalid: {report.lost} (>{quality_config.lost_percent}%)\n"
+    rout += "------------------------------\n"
     if is_pass_test(report):
-        print("Test Pass")
+        rout += "Test Pass\n"
     else:
-        print("Test Not Pass")
-    print("------------------------------")
+        rout += "Test Not Pass\n"
+    rout += "------------------------------\n"
+
+    return rout
 
 
 
@@ -150,7 +153,11 @@ if __name__ == "__main__":
     report: AnalyzeReportStream = analyze_stream(data_frame, quality_config)
 
 
-    print_report(report, quality_config)
+    output = get_report(report, quality_config)
+    
+    file = open(f"{pcap_file[:-5]}.txt", "w")
+    file.write(output)
+    print(output)
 
     
         
