@@ -26,7 +26,6 @@ cleanup() {
 # Trap SIGINT (Ctrl+C) and call cleanup
 trap cleanup SIGINT
 
-
 # Start tcpdump in the background, saving to ${n}test.pcap, and save its PID
 tcpdump -i any -w "${n}test.pcap" &
 TCPDUMP_PID=$!
@@ -35,18 +34,31 @@ TCPDUMP_PID=$!
 pidstat -p $RTPENGINE_PID 1 > "${n}test.log" &
 PIDSTAT_PID=$!
 
-# Run the first SSH command in the background
+# Run the first SSH command in the background and capture its output
 echo "Starting first remote command on ${SIPP_SERVER} in the background..."
-sshpass -p "${SIPP_SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_SERVER_USER}@${SIPP_SERVER} "cd ${SIPP_SERVER_DIR} && ulimit -n 10000 && ${SIPP_SERVER_CMD} ${n}" &
+sshpass -p "${SIPP_SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_SERVER_USER}@${SIPP_SERVER} "cd ${SIPP_SERVER_DIR} && ulimit -n 10000 && ${SIPP_SERVER_CMD} ${n}" > "${n}_sipp_server.log" 2>&1 &
 BACKGROUND_SSH_PID=$!
 
-# Run the second SSH command and wait for it to complete
+# Run the second SSH command and capture its output
 echo "Starting main remote command on ${SIPP_CLIENT}..."
-sshpass -p "${SIPP_CLIENT_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_CLIENT_USER}@${SIPP_CLIENT} "cd ${SIPP_CLIENT_DIR} && ulimit -n 10000 && ${SIPP_CLIENT_CMD} ${n}"
+sshpass -p "${SIPP_CLIENT_PASSWORD}" ssh -o StrictHostKeyChecking=no ${SIPP_CLIENT_USER}@${SIPP_CLIENT} "cd ${SIPP_CLIENT_DIR} && ulimit -n 10000 && ${SIPP_CLIENT_CMD} ${n}" > "${n}_sipp_client.log" 2>&1
 echo "Main remote command completed."
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
 cleanup
+
+# Notify the user where logs are saved
+echo "SIPp client and server logs saved as:"
+echo "  - ${n}_sipp_client.log"
+echo "  - ${n}_sipp_server.log"
+
+
+
+
+
+
+
+
 
 # Run the rtp_analyse Python file, redirecting output to "${n}test.txt"
 echo "Running rtp-analyse.py with ${n}test.pcap, outputting to ${n}test.txt..."

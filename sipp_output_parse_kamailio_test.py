@@ -31,7 +31,7 @@ def parse_sipp_output(output_file):
     if not os.path.exists(output_file):
         raise FileNotFoundError(f"The file {output_file} does not exist.")
     
-    with open(output_file, 'r') as file:
+    with open(output_file, 'r') as file:  
         data = file.read()
 
     def extract_value(pattern, default=0):
@@ -46,13 +46,9 @@ def parse_sipp_output(output_file):
     call_rate_match = re.search(r"Call Rate\s+\|\s+[^\|]+\|\s+([\d.]+)", data)
     call_rate = float(call_rate_match.group(1).strip()) if call_rate_match else 0.0
 
-    return {
-        "total_calls": total_calls,
-        "failed_call_rate": failed_call_rate,
-        "successful_calls": successful_calls,
-        "failed_calls": failed_calls,
-        "call_rate": call_rate
-    }
+    return (total_calls,
+            failed_calls
+    )
 
 
 
