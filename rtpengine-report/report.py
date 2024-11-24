@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 # Directory where the text files are stored
 directory = '../test/'  # Replace with the path containing the files
 
+
+
 # Initialize lists to store extracted data
 file_names = []
 all_streams = []

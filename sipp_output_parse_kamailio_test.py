@@ -25,24 +25,35 @@ def run_sipp_command(r = NCpS):
 
 '''fail rate calculation on client side'''
 import re
-from datetime import datetime
-def parse_sipp_output():
-    with open(OUTPUT_FILE, 'r') as file:
+import os
+
+def parse_sipp_output(output_file):
+    if not os.path.exists(output_file):
+        raise FileNotFoundError(f"The file {output_file} does not exist.")
+    
+    with open(output_file, 'r') as file:
         data = file.read()
-    # Extract Cumulative Successful and Failed Calls
-    successful_calls_match = re.search(r"Successful call\s+\|\s+[^\|]+\|\s+(\d+)", data)
-    successful_calls = int(successful_calls_match.group(1).strip()) if successful_calls_match else 0
 
-    failed_calls_match = re.search(r"Failed call\s+\|\s+[^\|]+\|\s+(\d+)", data)
-    failed_calls = int(failed_calls_match.group(1).strip()) if failed_calls_match else 0
+    def extract_value(pattern, default=0):
+        match = re.search(pattern, data)
+        return int(match.group(1).strip()) if match else default
 
-    # Calculate total calls and failed call rate
+    successful_calls = extract_value(r"Successful call\s+\|\s+[^\|]+\|\s+(\d+)")
+    failed_calls = extract_value(r"Failed call\s+\|\s+[^\|]+\|\s+(\d+)")
     total_calls = successful_calls + failed_calls
     failed_call_rate = (failed_calls / total_calls) * 100 if total_calls > 0 else 0
 
-    return (total_calls,
-            failed_call_rate
-    )
+    call_rate_match = re.search(r"Call Rate\s+\|\s+[^\|]+\|\s+([\d.]+)", data)
+    call_rate = float(call_rate_match.group(1).strip()) if call_rate_match else 0.0
+
+    return {
+        "total_calls": total_calls,
+        "failed_call_rate": failed_call_rate,
+        "successful_calls": successful_calls,
+        "failed_calls": failed_calls,
+        "call_rate": call_rate
+    }
+
 
 
 if __name__ == "__main__":
