@@ -43,7 +43,7 @@ parse_sipp_output() {
 
 # Ensure the script is called with the output file
 if [[ $# -ne 1 ]]; then
-    echo "Usage: $0 <output_file>"
+    echo "Usage: $0 <sipp_output_file>"
     exit 1
 fi
 

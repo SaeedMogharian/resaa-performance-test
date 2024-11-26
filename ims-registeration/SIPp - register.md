@@ -11,11 +11,11 @@ To simulate the IMS registration flow using SIPp, you can create an XML scenario
     REGISTER sip:[remote_ip]:[remote_port] SIP/2.0
     Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
     Max-Forwards: 70
-    From: <sip:[field0]@[domain]>;tag=[call_number]
-    To: <sip:[field0]@[domain]>
+    From: <sip:[field0]@[local_ip]:[local_port]>;tag=[call_number]
+    To: <sip:[field0]@[local_ip]:[local_port]>
     Call-ID: [call_id]
     CSeq: 1 REGISTER
-    Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>;expires=3600
+    Contact: sip:[field0]@[local_ip]:[local_port];transport=[transport]>;expires=3600
     Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO
     Supported: path
     Content-Length: 0
@@ -23,11 +23,13 @@ To simulate the IMS registration flow using SIPp, you can create an XML scenario
     ]]>
   </send>
 
+
   <!-- Expect 401 Unauthorized Response -->
   <recv response="401" optional="false">
     <action>
       <!-- Extract nonce for authentication -->
-      <assign var="nonce" expr="hdr_www_authenticate[nonce=(.*?),]"/>
+      <!-- <assign var="nonce" expr="hdr_www_authenticate[nonce=(.*?),]"/> -->
+      <ereg regexp="hdr_www_authenticate[nonce=(.*?),]" search_in="msg" check_it="true" assign_to="1" />
     </action>
   </recv>
 
@@ -37,12 +39,12 @@ To simulate the IMS registration flow using SIPp, you can create an XML scenario
     REGISTER sip:[remote_ip]:[remote_port] SIP/2.0
     Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
     Max-Forwards: 70
-    From: <sip:[field0]@[domain]>;tag=[call_number]
-    To: <sip:[field0]@[domain]>
+    From: <sip:[field0]@[local_ip]:[local_port]>;tag=[call_number]
+    To: <sip:[field0]@[local_ip]:[local_port]>
     Call-ID: [call_id]
     CSeq: 2 REGISTER
     Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>;expires=3600
-    Authorization: Digest username="[field0]@[domain]", realm="[domain]", nonce="[nonce]", uri="sip:[domain]", response="[auth_response]"
+    Authorization: Digest username="[field0]@[local_ip]:[local_port]", realm="[local_ip]:[local_port]", nonce="[$1]", uri="sip:[local_ip]:[local_port]"
     Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO
     Supported: path
     Content-Length: 0
@@ -54,7 +56,7 @@ To simulate the IMS registration flow using SIPp, you can create an XML scenario
   <recv response="200" optional="false">
     <action>
       <!-- Registration successful -->
-      <log message="Registration successful for user [field0]@[domain]"/>
+      <log message="Registration successful for user [field0]@[local_ip]:[local_port]"/>
     </action>
   </recv>
 
