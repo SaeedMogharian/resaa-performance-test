@@ -109,12 +109,12 @@ username2;sip_server2;sip_proxy2;[authentication username=username2 password=pas
 مثال:
 ‍‍‍
 ```
-Authorization: Digest username="USRENAME", realm="DOMAIN", cnonce="6bcdcdd2", nc=00000001,qop=auth, uri="sip:REMOTE_IP:PORT",nonce="dcbb7e2d83f2f07a3d866fb06df98f9f", response="b274f6058fadac4ea6d29f1, algorithm="md5"
+Authorization: Digest username="USRENAME", realm="DOMAIN", cnonce="6bcdcdd2", nc=00000001,qop=auth, uri="sip:DOMAIN",nonce="dcbb7e2d83f2f07a3d866fb06df98f9f", response="b274f6058fadac4ea6d29f1, algorithm="md5"
 ```
 
 نکته: بدون وجود کلیدواژه auth در سناریو، کلید واژه سرتیتر authentication خطا می‌دهد.
-	
-	
+
+[مستندات  SIPp Auth](https://sipp.readthedocs.io/en/v3.6.1/scenarios/sipauth.html)
 ### 5.انتظار پیام 100 Trying (اختیاری)
 ### 6. انتظار برای پاسخ 200 OK
 ```xml

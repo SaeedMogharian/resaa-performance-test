@@ -1,0 +1,438 @@
+Linux 5.15.0-119-generic (mehran-ubuntu-template) 	09/03/2024 	_x86_64_	(4 CPU)
+
+10:18:25 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:30 AM     0      6981    0.00    0.20    0.00    0.00    0.20     1  kamailio
+
+10:18:30 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:35 AM     0      6972    2.20    1.20    0.00    0.60    3.40     1  kamailio
+10:18:35 AM     0      6973    2.00    1.00    0.00    0.60    3.00     0  kamailio
+10:18:35 AM     0      6974    2.20    1.20    0.00    0.60    3.40     1  kamailio
+10:18:35 AM     0      6975    2.20    1.00    0.00    0.60    3.20     0  kamailio
+10:18:35 AM     0      6976    2.40    0.60    0.00    0.60    3.00     1  kamailio
+10:18:35 AM     0      6977    2.20    0.80    0.00    0.40    3.00     1  kamailio
+10:18:35 AM     0      6978    2.40    1.00    0.00    0.60    3.40     0  kamailio
+10:18:35 AM     0      6979    2.20    1.40    0.00    0.60    3.60     2  kamailio
+
+10:18:35 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:40 AM     0      6972    1.80    1.20    0.00    0.60    3.00     2  kamailio
+10:18:40 AM     0      6973    1.80    1.20    0.00    0.60    3.00     2  kamailio
+10:18:40 AM     0      6974    2.20    0.40    0.00    0.40    2.60     1  kamailio
+10:18:40 AM     0      6975    2.00    1.00    0.00    0.60    3.00     3  kamailio
+10:18:40 AM     0      6976    2.20    0.60    0.00    0.60    2.80     2  kamailio
+10:18:40 AM     0      6977    1.80    0.80    0.00    0.60    2.60     2  kamailio
+10:18:40 AM     0      6978    2.20    0.60    0.00    0.40    2.80     3  kamailio
+10:18:40 AM     0      6979    2.00    0.80    0.00    0.40    2.80     3  kamailio
+
+10:18:40 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:45 AM     0      6972    2.20    1.20    0.00    0.60    3.40     3  kamailio
+10:18:45 AM     0      6973    1.80    0.80    0.00    0.40    2.60     3  kamailio
+10:18:45 AM     0      6974    2.00    0.80    0.00    0.60    2.80     2  kamailio
+10:18:45 AM     0      6975    2.20    1.00    0.00    0.60    3.20     1  kamailio
+10:18:45 AM     0      6976    2.40    0.40    0.00    0.60    2.80     2  kamailio
+10:18:45 AM     0      6977    2.00    0.60    0.00    0.80    2.60     1  kamailio
+10:18:45 AM     0      6978    1.80    1.00    0.00    0.40    2.80     3  kamailio
+10:18:45 AM     0      6979    1.80    0.60    0.00    0.40    2.40     2  kamailio
+10:18:45 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:18:45 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:50 AM     0      6972    1.60    1.00    0.00    0.40    2.60     3  kamailio
+10:18:50 AM     0      6973    2.40    0.60    0.00    0.80    3.00     3  kamailio
+10:18:50 AM     0      6974    2.20    0.60    0.00    0.60    2.80     1  kamailio
+10:18:50 AM     0      6975    1.60    1.20    0.00    0.60    2.80     1  kamailio
+10:18:50 AM     0      6976    2.00    0.80    0.00    0.40    2.80     3  kamailio
+10:18:50 AM     0      6977    2.20    1.20    0.00    0.60    3.40     3  kamailio
+10:18:50 AM     0      6978    2.00    0.80    0.00    0.60    2.80     1  kamailio
+10:18:50 AM     0      6979    2.00    0.80    0.00    0.40    2.80     1  kamailio
+10:18:50 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:18:50 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:18:55 AM     0      6972    2.20    0.80    0.00    0.60    3.00     2  kamailio
+10:18:55 AM     0      6973    1.80    1.40    0.00    0.40    3.20     3  kamailio
+10:18:55 AM     0      6974    1.80    1.20    0.00    0.60    3.00     1  kamailio
+10:18:55 AM     0      6975    2.20    1.00    0.00    0.80    3.20     3  kamailio
+10:18:55 AM     0      6976    2.40    0.80    0.00    0.80    3.20     3  kamailio
+10:18:55 AM     0      6977    2.00    1.20    0.00    0.60    3.20     2  kamailio
+10:18:55 AM     0      6978    2.40    0.80    0.00    0.80    3.20     2  kamailio
+10:18:55 AM     0      6979    1.60    1.40    0.00    0.80    3.00     1  kamailio
+
+10:18:55 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:00 AM     0      6972    2.20    1.60    0.00    1.00    3.80     2  kamailio
+10:19:00 AM     0      6973    2.20    1.40    0.00    0.80    3.60     2  kamailio
+10:19:00 AM     0      6974    2.40    0.80    0.00    0.60    3.20     0  kamailio
+10:19:00 AM     0      6975    2.60    0.80    0.00    0.60    3.40     1  kamailio
+10:19:00 AM     0      6976    2.20    1.00    0.00    0.80    3.20     2  kamailio
+10:19:00 AM     0      6977    2.40    1.00    0.00    0.60    3.40     2  kamailio
+10:19:00 AM     0      6978    2.00    1.60    0.00    0.80    3.60     3  kamailio
+10:19:00 AM     0      6979    2.80    0.60    0.00    0.80    3.40     2  kamailio
+10:19:00 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:19:00 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:05 AM     0      6972    2.40    1.00    0.00    0.60    3.40     2  kamailio
+10:19:05 AM     0      6973    2.20    0.80    0.00    0.60    3.00     2  kamailio
+10:19:05 AM     0      6974    3.00    1.00    0.00    0.80    4.00     3  kamailio
+10:19:05 AM     0      6975    2.20    1.20    0.00    1.00    3.40     3  kamailio
+10:19:05 AM     0      6976    2.20    1.00    0.00    0.80    3.20     2  kamailio
+10:19:05 AM     0      6977    2.60    0.80    0.00    0.40    3.40     3  kamailio
+10:19:05 AM     0      6978    2.40    1.00    0.00    0.60    3.40     1  kamailio
+10:19:05 AM     0      6979    2.20    1.00    0.00    0.80    3.20     3  kamailio
+10:19:05 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:19:05 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:10 AM     0      6972    2.20    1.20    0.00    0.60    3.40     1  kamailio
+10:19:10 AM     0      6973    2.00    1.40    0.00    0.60    3.40     3  kamailio
+10:19:10 AM     0      6974    2.00    1.20    0.00    0.80    3.20     1  kamailio
+10:19:10 AM     0      6975    2.20    0.80    0.00    0.60    3.00     1  kamailio
+10:19:10 AM     0      6976    2.40    0.80    0.00    0.60    3.20     3  kamailio
+10:19:10 AM     0      6977    2.60    0.60    0.00    0.60    3.20     1  kamailio
+10:19:10 AM     0      6978    2.40    1.00    0.00    0.80    3.40     1  kamailio
+10:19:10 AM     0      6979    2.20    1.00    0.00    0.60    3.20     2  kamailio
+10:19:10 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:19:10 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:15 AM     0      6972    2.00    1.20    0.00    0.80    3.20     3  kamailio
+10:19:15 AM     0      6973    2.40    1.00    0.00    0.60    3.40     1  kamailio
+10:19:15 AM     0      6974    2.20    1.20    0.00    0.40    3.40     2  kamailio
+10:19:15 AM     0      6975    2.00    1.40    0.00    0.60    3.40     2  kamailio
+10:19:15 AM     0      6976    2.40    1.00    0.00    0.80    3.40     3  kamailio
+10:19:15 AM     0      6977    2.40    1.00    0.00    0.60    3.40     3  kamailio
+10:19:15 AM     0      6978    2.00    1.40    0.00    0.80    3.40     3  kamailio
+10:19:15 AM     0      6979    2.20    1.00    0.00    0.60    3.20     1  kamailio
+10:19:15 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:19:15 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:20 AM     0      6972    2.20    1.00    0.00    0.60    3.20     3  kamailio
+10:19:20 AM     0      6973    2.60    0.60    0.00    0.80    3.20     3  kamailio
+10:19:20 AM     0      6974    2.60    0.80    0.00    0.60    3.40     2  kamailio
+10:19:20 AM     0      6975    2.20    1.20    0.00    0.80    3.40     2  kamailio
+10:19:20 AM     0      6976    2.40    1.20    0.00    0.60    3.60     3  kamailio
+10:19:20 AM     0      6977    2.40    1.20    0.00    0.60    3.60     2  kamailio
+10:19:20 AM     0      6978    2.20    1.20    0.00    0.80    3.40     2  kamailio
+10:19:20 AM     0      6979    2.60    0.80    0.00    0.80    3.40     1  kamailio
+
+10:19:20 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:25 AM     0      6972    2.60    1.40    0.00    1.00    4.00     2  kamailio
+10:19:25 AM     0      6973    2.80    1.00    0.00    1.00    3.80     1  kamailio
+10:19:25 AM     0      6974    2.60    1.00    0.00    1.00    3.60     3  kamailio
+10:19:25 AM     0      6975    2.20    1.40    0.00    0.80    3.60     2  kamailio
+10:19:25 AM     0      6976    2.60    1.00    0.00    0.80    3.60     3  kamailio
+10:19:25 AM     0      6977    2.60    1.00    0.00    1.00    3.60     1  kamailio
+10:19:25 AM     0      6978    2.40    1.40    0.00    0.80    3.80     2  kamailio
+10:19:25 AM     0      6979    3.00    0.80    0.00    0.80    3.80     2  kamailio
+10:19:25 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:19:25 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:30 AM     0      6972    2.60    1.20    0.00    1.20    3.80     0  kamailio
+10:19:30 AM     0      6973    2.80    1.40    0.00    1.00    4.20     3  kamailio
+10:19:30 AM     0      6974    3.00    1.00    0.00    1.00    4.00     2  kamailio
+10:19:30 AM     0      6975    3.00    1.00    0.00    1.00    4.00     1  kamailio
+10:19:30 AM     0      6976    2.40    1.80    0.00    1.20    4.20     1  kamailio
+10:19:30 AM     0      6977    2.80    1.60    0.00    1.00    4.40     3  kamailio
+10:19:30 AM     0      6978    2.40    1.40    0.00    1.00    3.80     2  kamailio
+10:19:30 AM     0      6979    3.00    1.20    0.00    1.20    4.20     2  kamailio
+10:19:30 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:19:30 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:35 AM     0      6972    2.80    1.00    0.00    0.80    3.80     3  kamailio
+10:19:35 AM     0      6973    2.60    1.20    0.00    0.80    3.80     3  kamailio
+10:19:35 AM     0      6974    2.60    1.20    0.00    1.00    3.80     3  kamailio
+10:19:35 AM     0      6975    2.60    1.40    0.00    1.00    4.00     3  kamailio
+10:19:35 AM     0      6976    3.00    1.00    0.00    0.80    4.00     2  kamailio
+10:19:35 AM     0      6977    2.60    1.00    0.00    1.00    3.60     2  kamailio
+10:19:35 AM     0      6978    2.80    1.00    0.00    1.00    3.80     1  kamailio
+10:19:35 AM     0      6979    2.60    1.40    0.00    0.80    4.00     2  kamailio
+10:19:35 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:19:35 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:40 AM     0      6972    2.40    1.20    0.00    1.20    3.60     1  kamailio
+10:19:40 AM     0      6973    2.80    1.00    0.00    1.00    3.80     2  kamailio
+10:19:40 AM     0      6974    2.60    1.00    0.00    1.00    3.60     3  kamailio
+10:19:40 AM     0      6975    2.60    1.00    0.00    1.00    3.60     2  kamailio
+10:19:40 AM     0      6976    2.80    1.00    0.00    1.00    3.80     2  kamailio
+10:19:40 AM     0      6977    2.40    1.40    0.00    1.00    3.80     3  kamailio
+10:19:40 AM     0      6978    2.60    1.00    0.00    1.00    3.60     3  kamailio
+10:19:40 AM     0      6979    2.60    1.20    0.00    1.20    3.80     3  kamailio
+10:19:40 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:19:40 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:45 AM     0      6972    2.40    1.60    0.00    1.20    4.00     2  kamailio
+10:19:45 AM     0      6973    2.80    1.00    0.00    1.00    3.80     2  kamailio
+10:19:45 AM     0      6974    3.00    0.80    0.00    1.00    3.80     1  kamailio
+10:19:45 AM     0      6975    2.40    1.20    0.00    1.20    3.60     3  kamailio
+10:19:45 AM     0      6976    2.60    1.40    0.00    1.00    4.00     2  kamailio
+10:19:45 AM     0      6977    2.40    1.40    0.00    1.00    3.80     1  kamailio
+10:19:45 AM     0      6978    2.40    1.40    0.00    1.20    3.80     2  kamailio
+10:19:45 AM     0      6979    2.60    1.00    0.00    1.00    3.60     3  kamailio
+10:19:45 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:19:45 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:50 AM     0      6972    2.80    1.00    0.00    1.00    3.80     3  kamailio
+10:19:50 AM     0      6973    2.80    1.20    0.00    1.20    4.00     1  kamailio
+10:19:50 AM     0      6974    2.80    1.20    0.00    0.80    4.00     2  kamailio
+10:19:50 AM     0      6975    2.60    1.20    0.00    1.20    3.80     2  kamailio
+10:19:50 AM     0      6976    2.60    1.20    0.00    1.20    3.80     1  kamailio
+10:19:50 AM     0      6977    3.00    1.20    0.00    1.20    4.20     1  kamailio
+10:19:50 AM     0      6978    3.00    1.20    0.00    1.00    4.20     2  kamailio
+10:19:50 AM     0      6979    2.80    1.20    0.00    1.20    4.00     2  kamailio
+10:19:50 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:19:50 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:19:55 AM     0      6972    3.40    1.20    0.00    1.40    4.60     1  kamailio
+10:19:55 AM     0      6973    3.00    1.20    0.00    1.20    4.20     2  kamailio
+10:19:55 AM     0      6974    3.20    1.20    0.00    1.20    4.40     3  kamailio
+10:19:55 AM     0      6975    2.80    1.40    0.00    1.40    4.20     2  kamailio
+10:19:55 AM     0      6976    3.00    1.20    0.00    1.40    4.20     2  kamailio
+10:19:55 AM     0      6977    3.00    1.40    0.00    1.20    4.40     1  kamailio
+10:19:55 AM     0      6978    3.00    1.20    0.00    1.00    4.20     1  kamailio
+10:19:55 AM     0      6979    2.80    1.40    0.00    1.40    4.20     1  kamailio
+10:19:55 AM     0      6981    0.20    0.00    0.00    0.00    0.20     2  kamailio
+
+10:19:55 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:00 AM     0      6972    3.00    1.60    0.00    1.60    4.60     3  kamailio
+10:20:00 AM     0      6973    3.40    1.60    0.00    1.60    5.00     2  kamailio
+10:20:00 AM     0      6974    3.60    1.40    0.00    1.40    5.00     1  kamailio
+10:20:00 AM     0      6975    3.60    1.40    0.00    1.60    5.00     3  kamailio
+10:20:00 AM     0      6976    3.40    1.40    0.00    1.40    4.80     1  kamailio
+10:20:00 AM     0      6977    3.00    1.80    0.00    1.60    4.80     1  kamailio
+10:20:00 AM     0      6978    3.20    2.00    0.00    1.40    5.20     3  kamailio
+10:20:00 AM     0      6979    3.60    1.40    0.00    1.60    5.00     2  kamailio
+10:20:00 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:20:00 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:05 AM     0      6972    3.60    0.80    0.00    1.20    4.40     3  kamailio
+10:20:05 AM     0      6973    3.00    1.40    0.00    1.20    4.40     2  kamailio
+10:20:05 AM     0      6974    3.00    1.40    0.00    1.20    4.40     2  kamailio
+10:20:05 AM     0      6975    3.00    1.40    0.00    1.40    4.40     3  kamailio
+10:20:05 AM     0      6976    3.40    1.20    0.00    1.20    4.60     3  kamailio
+10:20:05 AM     0      6977    3.00    1.40    0.00    1.40    4.40     2  kamailio
+10:20:05 AM     0      6978    3.00    1.20    0.00    1.20    4.20     1  kamailio
+10:20:05 AM     0      6979    3.20    1.40    0.00    1.20    4.60     1  kamailio
+10:20:05 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:20:05 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:10 AM     0      6972    3.00    1.40    0.00    1.20    4.40     1  kamailio
+10:20:10 AM     0      6973    2.80    1.40    0.00    1.40    4.20     1  kamailio
+10:20:10 AM     0      6974    3.20    1.00    0.00    1.20    4.20     1  kamailio
+10:20:10 AM     0      6975    3.00    1.20    0.00    1.20    4.20     2  kamailio
+10:20:10 AM     0      6976    3.20    1.00    0.00    1.20    4.20     1  kamailio
+10:20:10 AM     0      6977    3.20    1.20    0.00    1.20    4.40     2  kamailio
+10:20:10 AM     0      6978    3.00    1.40    0.00    1.20    4.40     2  kamailio
+10:20:10 AM     0      6979    2.80    1.40    0.00    1.40    4.20     3  kamailio
+10:20:10 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:20:10 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:15 AM     0      6972    3.40    1.00    0.00    1.40    4.40     1  kamailio
+10:20:15 AM     0      6973    3.00    1.60    0.00    1.40    4.60     3  kamailio
+10:20:15 AM     0      6974    3.00    1.60    0.00    1.40    4.60     2  kamailio
+10:20:15 AM     0      6975    3.40    1.00    0.00    1.20    4.40     2  kamailio
+10:20:15 AM     0      6976    3.60    1.20    0.00    1.00    4.80     2  kamailio
+10:20:15 AM     0      6977    3.40    1.00    0.00    1.20    4.40     2  kamailio
+10:20:15 AM     0      6978    3.00    1.80    0.00    1.40    4.80     3  kamailio
+10:20:15 AM     0      6979    3.40    1.00    0.00    1.40    4.40     3  kamailio
+10:20:15 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:20:15 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:20 AM     0      6972    3.40    1.00    0.00    1.20    4.40     1  kamailio
+10:20:20 AM     0      6973    3.00    1.40    0.00    1.40    4.40     1  kamailio
+10:20:20 AM     0      6974    3.20    1.00    0.00    1.40    4.20     1  kamailio
+10:20:20 AM     0      6975    2.80    1.80    0.00    1.20    4.60     2  kamailio
+10:20:20 AM     0      6976    3.20    1.00    0.00    1.40    4.20     3  kamailio
+10:20:20 AM     0      6977    3.00    1.40    0.00    1.40    4.40     3  kamailio
+10:20:20 AM     0      6978    3.20    1.20    0.00    1.40    4.40     1  kamailio
+10:20:20 AM     0      6979    3.40    1.20    0.00    1.20    4.60     3  kamailio
+10:20:20 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:20:20 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:25 AM     0      6972    3.60    1.60    0.00    1.80    5.20     1  kamailio
+10:20:25 AM     0      6973    3.20    1.80    0.00    1.60    5.00     2  kamailio
+10:20:25 AM     0      6974    3.20    2.00    0.00    2.00    5.20     1  kamailio
+10:20:25 AM     0      6975    3.80    1.20    0.00    1.80    5.00     2  kamailio
+10:20:25 AM     0      6976    3.20    1.80    0.00    1.80    5.00     3  kamailio
+10:20:25 AM     0      6977    3.40    1.40    0.00    2.00    4.80     1  kamailio
+10:20:25 AM     0      6978    3.20    1.80    0.00    2.00    5.00     1  kamailio
+10:20:25 AM     0      6979    3.40    1.20    0.00    2.00    4.60     1  kamailio
+10:20:25 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:20:25 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:30 AM     0      6972    4.00    1.40    0.00    1.80    5.40     1  kamailio
+10:20:30 AM     0      6973    4.00    1.40    0.00    2.00    5.40     3  kamailio
+10:20:30 AM     0      6974    3.80    1.80    0.00    1.60    5.60     3  kamailio
+10:20:30 AM     0      6975    3.80    2.00    0.00    1.60    5.80     3  kamailio
+10:20:30 AM     0      6976    4.60    1.40    0.00    1.40    6.00     3  kamailio
+10:20:30 AM     0      6977    4.20    1.40    0.00    1.60    5.60     2  kamailio
+10:20:30 AM     0      6978    4.00    1.40    0.00    1.60    5.40     3  kamailio
+10:20:30 AM     0      6979    3.80    1.80    0.00    1.60    5.60     2  kamailio
+10:20:30 AM     0      6981    0.20    0.00    0.00    0.20    0.20     2  kamailio
+
+10:20:30 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:35 AM     0      6972    3.40    1.40    0.00    1.40    4.80     1  kamailio
+10:20:35 AM     0      6973    3.00    1.60    0.00    1.40    4.60     3  kamailio
+10:20:35 AM     0      6974    3.40    1.80    0.00    1.40    5.20     1  kamailio
+10:20:35 AM     0      6975    3.60    1.40    0.00    1.40    5.00     2  kamailio
+10:20:35 AM     0      6976    3.20    1.80    0.00    1.40    5.00     3  kamailio
+10:20:35 AM     0      6977    3.40    1.40    0.00    1.60    4.80     1  kamailio
+10:20:35 AM     0      6978    3.40    1.20    0.00    1.60    4.60     3  kamailio
+10:20:35 AM     0      6979    3.20    1.60    0.00    1.40    4.80     1  kamailio
+10:20:35 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:20:35 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:40 AM     0      6972    3.20    1.60    0.00    1.80    4.80     3  kamailio
+10:20:40 AM     0      6973    3.60    1.20    0.00    1.60    4.80     1  kamailio
+10:20:40 AM     0      6974    3.60    1.40    0.00    1.40    5.00     2  kamailio
+10:20:40 AM     0      6975    3.40    1.20    0.00    1.60    4.60     2  kamailio
+10:20:40 AM     0      6976    3.40    1.40    0.00    1.60    4.80     1  kamailio
+10:20:40 AM     0      6977    3.00    1.80    0.00    1.80    4.80     1  kamailio
+10:20:40 AM     0      6978    3.40    1.40    0.00    1.80    4.80     1  kamailio
+10:20:40 AM     0      6979    3.00    1.80    0.00    1.60    4.80     2  kamailio
+10:20:40 AM     0      6981    0.40    0.00    0.00    0.00    0.40     0  kamailio
+
+10:20:40 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:45 AM     0      6972    3.20    1.80    0.00    1.80    5.00     2  kamailio
+10:20:45 AM     0      6973    3.60    1.40    0.00    1.40    5.00     1  kamailio
+10:20:45 AM     0      6974    3.20    1.40    0.00    1.60    4.60     2  kamailio
+10:20:45 AM     0      6975    3.40    1.80    0.00    1.60    5.20     2  kamailio
+10:20:45 AM     0      6976    3.60    1.60    0.00    1.80    5.20     1  kamailio
+10:20:45 AM     0      6977    3.20    1.80    0.00    1.60    5.00     3  kamailio
+10:20:45 AM     0      6978    3.60    1.40    0.00    1.40    5.00     2  kamailio
+10:20:45 AM     0      6979    3.80    1.20    0.00    1.60    5.00     3  kamailio
+10:20:45 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:20:45 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:50 AM     0      6972    2.80    1.20    0.00    1.40    4.00     0  kamailio
+10:20:50 AM     0      6973    3.00    1.20    0.00    1.60    4.20     3  kamailio
+10:20:50 AM     0      6974    3.00    1.00    0.00    1.40    4.00     3  kamailio
+10:20:50 AM     0      6975    2.80    1.20    0.00    1.40    4.00     2  kamailio
+10:20:50 AM     0      6976    2.60    1.20    0.00    1.40    3.80     1  kamailio
+10:20:50 AM     0      6977    2.80    1.00    0.00    1.40    3.80     3  kamailio
+10:20:50 AM     0      6978    2.80    1.40    0.00    1.60    4.20     1  kamailio
+10:20:50 AM     0      6979    2.80    1.20    0.00    1.60    4.00     1  kamailio
+10:20:50 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:20:50 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:20:55 AM     0      6981    0.40    0.00    0.00    0.00    0.40     1  kamailio
+
+10:20:55 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:21:00 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:21:05 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:10 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+10:21:10 AM     0      6982    0.00    0.20    0.00    0.00    0.20     1  kamailio
+
+10:21:10 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:21:15 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:20 AM     0      6972    0.20    0.40    0.00    0.20    0.60     2  kamailio
+10:21:20 AM     0      6973    0.60    0.20    0.00    0.20    0.80     3  kamailio
+10:21:20 AM     0      6974    0.60    0.40    0.00    0.20    1.00     2  kamailio
+10:21:20 AM     0      6975    0.60    0.20    0.00    0.20    0.80     1  kamailio
+10:21:20 AM     0      6976    0.60    0.40    0.00    0.20    1.00     1  kamailio
+10:21:20 AM     0      6977    0.60    0.40    0.00    0.20    1.00     1  kamailio
+10:21:20 AM     0      6978    0.40    0.40    0.00    0.20    0.80     1  kamailio
+10:21:20 AM     0      6979    0.60    0.20    0.00    0.20    0.80     1  kamailio
+10:21:20 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:21:20 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:25 AM     0      6972    4.40    2.40    0.00    2.80    6.80     3  kamailio
+10:21:25 AM     0      6973    4.60    1.80    0.00    3.00    6.40     1  kamailio
+10:21:25 AM     0      6974    4.40    2.20    0.00    2.80    6.60     2  kamailio
+10:21:25 AM     0      6975    4.60    2.00    0.00    3.00    6.60     2  kamailio
+10:21:25 AM     0      6976    4.20    2.60    0.00    3.00    6.80     2  kamailio
+10:21:25 AM     0      6977    5.00    1.60    0.00    3.20    6.60     2  kamailio
+10:21:25 AM     0      6978    4.40    2.40    0.00    3.00    6.80     1  kamailio
+10:21:25 AM     0      6979    4.40    2.60    0.00    3.00    7.00     1  kamailio
+
+10:21:25 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:30 AM     0      6972    4.00    2.00    0.00    2.20    6.00     2  kamailio
+10:21:30 AM     0      6973    4.80    1.60    0.00    2.20    6.40     3  kamailio
+10:21:30 AM     0      6974    4.40    1.80    0.00    2.00    6.20     1  kamailio
+10:21:30 AM     0      6975    3.80    2.00    0.00    2.20    5.80     1  kamailio
+10:21:30 AM     0      6976    4.20    1.60    0.00    2.20    5.80     2  kamailio
+10:21:30 AM     0      6977    4.80    1.60    0.00    1.80    6.40     1  kamailio
+10:21:30 AM     0      6978    4.00    1.80    0.00    2.20    5.80     2  kamailio
+10:21:30 AM     0      6979    4.20    1.80    0.00    2.00    6.00     3  kamailio
+10:21:30 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:21:30 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:35 AM     0      6972    4.00    1.40    0.00    2.20    5.40     3  kamailio
+10:21:35 AM     0      6973    4.20    1.20    0.00    2.20    5.40     1  kamailio
+10:21:35 AM     0      6974    3.80    1.80    0.00    2.00    5.60     1  kamailio
+10:21:35 AM     0      6975    3.80    1.60    0.00    2.00    5.40     2  kamailio
+10:21:35 AM     0      6976    4.00    1.40    0.00    2.60    5.40     2  kamailio
+10:21:35 AM     0      6977    3.60    2.00    0.00    2.20    5.60     3  kamailio
+10:21:35 AM     0      6978    4.20    1.40    0.00    2.20    5.60     3  kamailio
+10:21:35 AM     0      6979    4.20    1.60    0.00    2.20    5.80     3  kamailio
+10:21:35 AM     0      6981    0.20    0.00    0.00    0.00    0.20     3  kamailio
+
+10:21:35 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:40 AM     0      6972    4.00    1.80    0.00    1.60    5.80     2  kamailio
+10:21:40 AM     0      6973    4.20    1.40    0.00    1.80    5.60     1  kamailio
+10:21:40 AM     0      6974    4.20    1.60    0.00    2.00    5.80     3  kamailio
+10:21:40 AM     0      6975    4.00    1.80    0.00    2.20    5.80     1  kamailio
+10:21:40 AM     0      6976    3.80    1.80    0.00    2.00    5.60     3  kamailio
+10:21:40 AM     0      6977    4.00    1.40    0.00    2.00    5.40     3  kamailio
+10:21:40 AM     0      6978    3.20    2.20    0.00    1.80    5.40     2  kamailio
+10:21:40 AM     0      6979    3.60    2.20    0.00    2.00    5.80     1  kamailio
+10:21:40 AM     0      6981    0.20    0.00    0.00    0.00    0.20     1  kamailio
+
+10:21:40 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:45 AM     0      6972    3.80    1.60    0.00    1.80    5.40     1  kamailio
+10:21:45 AM     0      6973    3.60    2.00    0.00    2.00    5.60     3  kamailio
+10:21:45 AM     0      6974    4.00    1.40    0.00    1.80    5.40     2  kamailio
+10:21:45 AM     0      6975    3.80    1.60    0.00    1.60    5.40     3  kamailio
+10:21:45 AM     0      6976    4.20    1.20    0.00    1.80    5.40     2  kamailio
+10:21:45 AM     0      6977    3.80    1.60    0.00    2.00    5.40     3  kamailio
+10:21:45 AM     0      6978    4.00    1.60    0.00    1.80    5.60     1  kamailio
+10:21:45 AM     0      6979    4.40    1.20    0.00    1.60    5.60     3  kamailio
+10:21:45 AM     0      6981    0.40    0.00    0.00    0.00    0.40     0  kamailio
+
+10:21:45 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:50 AM     0      6972    3.60    1.40    0.00    2.20    5.00     1  kamailio
+10:21:50 AM     0      6973    3.60    1.20    0.00    2.00    4.80     0  kamailio
+10:21:50 AM     0      6974    3.60    1.40    0.00    2.20    5.00     2  kamailio
+10:21:50 AM     0      6975    3.40    1.40    0.00    2.20    4.80     0  kamailio
+10:21:50 AM     0      6976    3.40    1.40    0.00    2.40    4.80     3  kamailio
+10:21:50 AM     0      6977    3.20    1.60    0.00    2.00    4.80     1  kamailio
+10:21:50 AM     0      6978    3.60    1.80    0.00    2.00    5.40     0  kamailio
+10:21:50 AM     0      6979    3.40    1.60    0.00    2.20    5.00     0  kamailio
+10:21:50 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:21:50 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:21:55 AM     0      6981    0.20    0.00    0.00    0.00    0.20     0  kamailio
+
+10:21:55 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:00 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:22:05 AM     0      6981    0.20    0.20    0.00    0.00    0.40     0  kamailio
+
+10:22:05 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:10 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:15 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:22:20 AM     0      6977    0.00    0.20    0.00    0.00    0.20     1  kamailio
+10:22:20 AM     0      6981    0.00    0.20    0.00    0.00    0.20     0  kamailio
+
+10:22:20 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:25 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:30 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:22:35 AM     0      6981    0.00    0.20    0.00    0.00    0.20     0  kamailio
+
+10:22:35 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+
+10:22:40 AM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+10:22:45 AM     0      6981    0.00    0.20    0.00    0.00    0.20     0  kamailio
+
+
+Average:      UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
+Average:        0      6972    1.93    0.88    0.00    0.84    2.82     -  kamailio
+Average:        0      6973    1.96    0.84    0.00    0.83    2.80     -  kamailio
+Average:        0      6974    1.99    0.83    0.00    0.81    2.82     -  kamailio
+Average:        0      6975    1.93    0.87    0.00    0.84    2.80     -  kamailio
+Average:        0      6976    2.00    0.81    0.00    0.84    2.81     -  kamailio
+Average:        0      6977    1.96    0.85    0.00    0.83    2.81     -  kamailio
+Average:        0      6978    1.92    0.90    0.00    0.83    2.82     -  kamailio
+Average:        0      6979    1.97    0.85    0.00    0.84    2.81     -  kamailio
+Average:        0      6981    0.14    0.02    0.00    0.01    0.16     -  kamailio
+Average:        0      6982    0.00    0.00    0.00    0.00    0.00     -  kamailio
