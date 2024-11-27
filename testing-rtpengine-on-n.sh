@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Get a number input from the user
-read -p "Enter the call number: " n
+# Check if the user provided an argument
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <call_number>"
+    exit 1
+fi
+
+# Read the call number from the command-line argument
+n=$1
 
 source config
 
@@ -51,13 +57,6 @@ cleanup
 echo "SIPp client and server logs saved as:"
 echo "  - ${n}_sipp_client.log"
 echo "  - ${n}_sipp_server.log"
-
-
-
-
-
-
-
 
 
 # Run the rtp_analyse Python file, redirecting output to "${n}test.txt"
