@@ -20,13 +20,11 @@
     ]]>
   </send>
 
-  <recv response="100">
+  <recv response="100" optional="true">
   </recv>
 
   <!-- Expect 401 Unauthorized Response -->
   <recv response="401" auth="true">
-    <action>
-    </action>
   </recv>
 
   <!-- Send REGISTER with Authentication -->
@@ -50,19 +48,11 @@
   </send>
 
 
-    <!-- Authorization: Digest username="[field0]", realm="[field1]", nonce="[$1]", uri="sip:[field1]", response="[generated_response]", algorithm=MD5, qop=auth, cnonce="[cnonce_value]", nc=00000001 -->
-
-
-
-  <recv response="100">
+  <recv response="100" optional="true">
   </recv>
 
   <!-- Expect 200 OK Response -->
   <recv response="200">
-    <action>
-      <!-- Registration successful -->
-      <!-- <log message="Registration successful for user [field0]@[local_ip]:[local_port]"/> -->
-    </action>
   </recv>
 
 
@@ -89,15 +79,11 @@
     ]]>
   </send>
 
-  <recv response="100">
+  <recv response="100" optional="true">
   </recv>
 
   <!-- Expect 200 OK Response -->
   <recv response="200">
-    <action>
-      <!-- Registration successful -->
-      <!-- <log message="Registration successful for user [field0]@[local_ip]:[local_port]"/> -->
-    </action>
   </recv>
 
 </scenario>
