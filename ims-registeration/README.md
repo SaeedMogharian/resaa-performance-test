@@ -1,23 +1,54 @@
-# SIPp IMS Registration Scenario
+# تست سناریو Register با SIPp در شبکه IMS
 
-This guide explains how to use the `register.xml` scenario for testing SIP registration procedures in an IMS network using SIPp. The scenario simulates the full registration process, including handling authentication challenges and receiving successful registration responses.
+توضیح سناریو برای فرایندهای SIP Register در یک آزمایشگاه شبکه IMS با استفاده از ابزار SIPp.
+## جریان سناریو
+مطابق سند Cloud SE
 
-## Scenario Flow
-
-The IMS registration process follows this flow:
-
-1. **Initial REGISTER Request**
-2. **Handling the 401 Unauthorized Challenge**
-3. **Authenticated REGISTER Request**
-4. **Successful Registration Response (200 OK)**
+1. **درخواست اولیه REGISTER**
+2. **پردازش چالش 401 Unauthorized
+3. **درخواست REGISTER با احراز هویت**
+4. **پاسخ موفقیت‌آمیز ثبت‌نام (200 OK)**
 
 ---
 
-## Detailed Breakdown of `register.xml`
+## نحوه اجرای سناریوها
 
-### 1. **Initial REGISTER Request**
+برای اجرای تست ثبت‌نام با استفاده از SIPp، از دستور زیر در دایرکتوری که SIPp نصب شده است استفاده کنید:
 
-The scenario begins by sending a `REGISTER` request to the IMS network. It contains essential fields such as the destination server, local IP, port, and contact information.
+```bash
+./sipp -sf register.xml -inf users.csv -p [local_port] [remote_ip] -m [test_count]
+```
+
+فایل‌های سناریو:
+
+- `register.xml`: سناریو ثبت‌نام.
+- `reregister.xml`: سناریو برای مجدداً ثبت‌نام کردن (بعد از ثبت نام اولیه و داشتن احراز هویت).
+- `deregister.xml`: سناریو برای لغو ثبت‌نام (بعد از  احراز هویت در درخواست اول و تنظیم `expires=0`).
+
+---
+
+## فایل CSV برای داده‌های کاربری
+
+فایل `users.csv` باید شامل داده‌ها و اطلاعات احراز هویت کاربران باشد:
+
+```csv
+SEQUENTIAL
+username1;sip_server1;sip_proxy1;[authentication username=username1 password=password1]
+username2;sip_server2;sip_proxy2;[authentication username=username2 password=password2]
+```
+
+که در آن:
+
+- field0: `username1`: نام کاربری SIP برای کاربر اول.
+- field1:`sip_server1`: دامنه سرور SIP برای کاربر اول.
+- field2: `sip_proxy1`: دامنه پروکسی SIP برای کاربر اول.
+- field3:`[authentication username=username1 password=password1]`: اطلاعات احراز هویت برای کاربر اول.
+
+---
+
+## توضیح فایل سناریو
+
+### 1. درخواست اولیه REGISTER
 
 ```xml
 <send>
@@ -37,33 +68,19 @@ The scenario begins by sending a `REGISTER` request to the IMS network. It conta
   ]]>
 </send>
 ```
+### 2.انتظار پیام 100 Trying (اختیاری)
+### 3. انتظار برای پاسخ 401 Unauthorized (چالش احراز هویت)
 
-- **[field1]**: The IMS domain or SIP server to register with.
-- **[field0]**: The user identifier (e.g., username).
-
-### 2. **Expect 100 Trying Response**
-
-The server responds with a `100 Trying` message, which indicates that the request is being processed. SIPp waits for this acknowledgment before moving on.
-
-```xml
-<recv response="100">
-</recv>
-```
-
-### 3. **Expect 401 Unauthorized Response (Authentication Challenge)**
-
-The server will return a `401 Unauthorized` response if authentication is required. This indicates that the client must provide credentials in the subsequent REGISTER request.
+اگر احراز هویت نیاز باشد، سرور پاسخ `401 Unauthorized` می‌دهد. این نشان می‌دهد که کلاینت باید در درخواست بعدی `REGISTER` اعتبارنامه‌های لازم را ارسال کند.
 
 ```xml
 <recv response="401" auth="true">
 </recv>
 ```
 
-- The `auth="true"` attribute tells SIPp to handle the authentication challenge automatically.
+- پارامتر `"auth="true` باعث می‌شود که SIPp چالش احراز هویت را به رسمیت بشناسد و پردازش کند.
+### 4. ارسال درخواست REGISTER با احراز هویت
 
-### 4. **Send REGISTER Request with Authentication**
-
-After receiving the `401 Unauthorized` response, the next step is to send a second `REGISTER` request, this time including the `Authorization` header with the necessary authentication credentials (username, password, and other parameters).
 
 ```xml
 <send>
@@ -78,7 +95,7 @@ After receiving the `401 Unauthorized` response, the next step is to send a seco
   CSeq: 2 REGISTER
   Contact: <sip:[field0]@[local_ip]:[local_port];transport=[transport]>
   Expires: 3600  
-  [field3] <!-- Authentication header is added here -->
+  [field3]
   Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO
   Supported: path
   Content-Length: 0
@@ -86,79 +103,12 @@ After receiving the `401 Unauthorized` response, the next step is to send a seco
 </send>
 ```
 
-- **[field3]**: The authentication header. This contains the credentials required by the server, including the digest authentication (username, realm, response, nonce, etc.).
-
-The server expects this request with valid credentials, including a computed response to the server's `401` challenge.
-
-### 5. **Expect 100 Trying Response**
-
-The server will again respond with a `100 Trying` message, indicating the request is being processed.
-
-```xml
-<recv response="100">
-</recv>
-```
-
-### 6. **Expect 200 OK Response (Registration Successful)**
-
-Finally, if the authentication is correct, the server will respond with a `200 OK` message, indicating that the registration was successful.
-
+- **[field3]**: هدر احراز هویت که شامل یوزرنیم و پسورد است.
+سرور این درخواست را با اعتبارنامه‌های صحیح از جمله پاسخ محاسبه‌شده به چالش `401` سرور انتظار دارد.
+	به طور خودکار SIPp مقدار `[authentication username=username1 password=password1]` را مطابق با چالش احراز هویت ساخته و به صورت هدر `Athentication` قرار می‌دهد.
+### 5.انتظار پیام 100 Trying (اختیاری)
+### 6. انتظار برای پاسخ 200 OK
 ```xml
 <recv response="200">
-  <action>
-    <!-- Registration successful -->
-    <log message="Registration successful for user [field0]@[local_ip]:[local_port]"/>
-  </action>
 </recv>
 ```
-
-- The action inside the `<recv>` block logs the success message, confirming the registration.
-
----
-
-## How to Run the Scenario
-
-To run the registration test using SIPp, use the following command in the directory where SIPp is installed:
-
-```bash
-./sipp -sf register.xml -inf users.csv -p [local_port] [remote_ip] -m [test_count]
-```
-
-Where:
-
-- **`[local_port]`**: The local port for SIP communication.
-- **`[remote_ip]`**: The IP address of the IMS network or SIP server.
-- **`[test_count]`**: The number of test iterations to run.
-
-Scenario files:
-
-- `register.xml`: The registration scenario.
-- `reregister.xml`: A scenario for re-registering (with authentication included in the first request).
-- `deregister.xml`: A scenario for de-registering (with authentication included in the first request and sets `expires=0`).
-
----
-
-## CSV File for User Data (`users.csv`)
-
-The `users.csv` file contains user data and authentication information. It follows the format below:
-
-```csv
-SEQUENTIAL
-username1;sip_server1;sip_proxy1;[authentication username=username1 password=password1]
-username2;sip_server2;sip_proxy2;[authentication username=username2 password=password2]
-```
-
-Where:
-
-- `username1`: The SIP username for the first user.
-- `sip_server1: The domain of the SIP server for the first user.
-- `sip_proxy1`: The domain of the SIP proxy for the first user.
-- `[authentication username=username1 password=password1]`: The authentication credentials for the first user.
-
----
-
-## Troubleshooting
-
-1. **401 Unauthorized Error**: If you receive a `401 Unauthorized` response, ensure that the authentication credentials in `register.xml` are correctly set and match the credentials provided in the `users.csv` file.
-2. **200 OK Not Received**: If you don't receive a `200 OK` response, check that the authentication process was successful. Verify that the `Authorization` header in the second `REGISTER` request is formatted correctly.
-3. **Timeouts or Connection Issues**: Verify the SIP server's availability and ensure that the network connection is not being blocked by firewalls or other network restrictions.
