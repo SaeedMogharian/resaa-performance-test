@@ -1,9 +1,9 @@
 
-*.log
-*.txt
+# *.log
+# *.txt
 /.idea
 *.pcap
-*.csv
+# *.csv
 /venv/
 .env
 config

@@ -1,0 +1,43 @@
+------------------------------ Scenario Screen -------- [1-9]: Change Screen --
+  Call rate (length)   Port   Total-time  Total-calls  Remote-host
+  470.0(1000 ms)/1.000s   5060      36.39 s         2350  192.168.21.45:5060(UDP)
+
+  Call limit 2350 hit, 18446744073709552  18446744073709551612 ms scheduler res
+  0 calls (limit 1410)                    Peak was 476 calls, after 2 s
+  0 Running, 1232 Paused, 4715 Woken up
+  148 dead call msg (discarded)           0 out-of-call msg (discarded)
+  0 open sockets                          0/0/0 UDP errors (send/recv/cong)
+
+                                 Messages  Retrans   Timeout   Unexpected-Msg
+0 :      INVITE ---------->         2350      4         0                            
+1 :         100 <----------         2211      0         0         139                
+2 :         180 <----------         2146      0         0         2                  
+3 :         200 <----------  E-RTD1 2209      0         0         0                  
+4 :         ACK ---------->         2209      0                                      
+5 :       Pause [   1000ms]         2206                          4        
+6 :         BYE ---------->         2205      9         1                            
+
+7 :         200 <----------         2060      0         0         144                
+
+------------------------------ Test Terminated --------------------------------
+----------------------------- Statistics Screen ------- [1-9]: Change Screen --
+  Start Time             | 2024-09-03	10:21:44.473482	1725358904.473482         
+  Last Reset Time        | 2024-09-03	10:22:20.870643	1725358940.870643         
+  Current Time           | 2024-09-03	10:22:20.871843	1725358940.871843         
+-------------------------+---------------------------+--------------------------
+  Counter Name           | Periodic value            | Cumulative value
+-------------------------+---------------------------+--------------------------
+  Elapsed Time           | 00:00:00:001000           | 00:00:00:001000          
+  Call Rate              |    0.000 cps              |   64.564 cps             
+-------------------------+---------------------------+--------------------------
+  Incoming calls created |        0                  |        0                 
+  Outgoing calls created |        0                  |     2350                 
+  Total Calls created    |                           |     2350                 
+  Current Calls          |        0                  |                          
+-------------------------+---------------------------+--------------------------
+  Successful call        |        0                  |     2060                 
+  Failed call            |        0                  |      290                 
+-------------------------+---------------------------+--------------------------
+  Response Time 1        | 00:00:00:000000           | 00:00:00:000000          
+  Call Length            | 00:00:00:000000           | 00:00:00:000000          
+------------------------------ Test Terminated --------------------------------
