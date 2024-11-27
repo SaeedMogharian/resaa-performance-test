@@ -103,9 +103,18 @@ username2;sip_server2;sip_proxy2;[authentication username=username2 password=pas
 </send>
 ```
 
-- **[field3]**: هدر احراز هویت که شامل یوزرنیم و پسورد است.
-سرور این درخواست را با اعتبارنامه‌های صحیح از جمله پاسخ محاسبه‌شده به چالش `401` سرور انتظار دارد.
-	به طور خودکار SIPp مقدار `[authentication username=username1 password=password1]` را مطابق با چالش احراز هویت ساخته و به صورت هدر `Athentication` قرار می‌دهد.
+در اینجا SIPp چالش احراز هویت را با دریافت پیام 401 را به رسمیت شناخته است و آن را پردازش کرده و `nonce` را استخراج کرده است.
+ما در field3 با استفاده از یوزنیم و پسورد، کلیدواژه‌ی authentication را به SIPp داده‌ایم: `[authentication username=username1 password=password1]`
+اتفاقی که می‌افتد این است که SIPp این مقدار را به همراه nonce استخراج شده از چالش پردازش کرده و response و cnonce را با توجه به الگوریتم مورد نظر محاسبه می‌کند و در هنگام ارسال پیام به جای آن، سرتیتر `Athentication` را قرار می‌دهد.
+مثال:
+‍‍‍
+```
+Authorization: Digest username="USRENAME", realm="DOMAIN", cnonce="6bcdcdd2", nc=00000001,qop=auth, uri="sip:REMOTE_IP:PORT",nonce="dcbb7e2d83f2f07a3d866fb06df98f9f", response="b274f6058fadac4ea6d29f1, algorithm="md5"
+```
+
+نکته: بدون وجود کلیدواژه auth در سناریو، کلید واژه سرتیتر authentication خطا می‌دهد.
+	
+	
 ### 5.انتظار پیام 100 Trying (اختیاری)
 ### 6. انتظار برای پاسخ 200 OK
 ```xml
