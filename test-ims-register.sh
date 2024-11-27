@@ -25,11 +25,12 @@ trap cleanup SIGINT
 tcpdump -i any -w "${n}test.pcap" &
 TCPDUMP_PID=$!
 
-SIPP_CLIENT_CMD = "./sipp -sf register.xml -inf users.csv 172.16.100.74 -m ${n}"
+# Correct the variable assignment without spaces around the equals sign
+SIPP_CLIENT_CMD="./sipp -sf register.xml -inf users.csv 172.16.100.74 -m ${n}"
 SIPP_CLIENT_DIR="/root/sipp"
-# Run the second SSH command and capture its output
-cd ${SIPP_CLIENT_DIR} && ${SIPP_CLIENT_CMD} > "${n}_sipp_client.log" 
-echo "Main remote command completed."
+
+# Run the SIPp client command and capture its output
+cd ${SIPP_CLIENT_DIR} && ${SIPP_CLIENT_CMD} > "./${n}_sipp_client.log" 
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
 cleanup
@@ -38,7 +39,8 @@ cleanup
 echo "SIPp client and server logs saved as:"
 echo "  - ${n}_sipp_client.log"
 
-./parse_sipp_output ${n}_sipp_client.log
+# Run the parse_sipp_output script with the log file
+./parse_sipp_output "${n}_sipp_client.log"
 
 
 # # Run the rtp_analyse Python file, redirecting output to "${n}test.txt"
