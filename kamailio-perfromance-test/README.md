@@ -1,3 +1,6 @@
+# Kamailio New Call per Second - performance test
+
+
 ماشین kamailio:
 192.168.21.45
 ماشین sipp server

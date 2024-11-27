@@ -32,4 +32,4 @@ if __name__=="__main__":
     file = sys.argv[1]
 
     total_calls, fail_rate = parse_sipp_output(file)
-    print(f"On total calls = {total_calls}, Failed: {fail_rate:2f}%")
+    print(f"Failed: {fail_rate:2f}%")

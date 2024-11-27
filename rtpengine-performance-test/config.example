@@ -1,0 +1,20 @@
+# SIPP Server
+SIPP_SERVER=192.168.21.57
+SIPP_SERVER_USER=root
+SIPP_SERVER_PASSWORD=a
+SIPP_SERVER_DIR="/root/performance-test"
+SIPP_SERVER_CMD="./sipp -sf server.xml -inf p2.csv 192.168.100.83:5060 -mi 192.168.100.57 -p 6070 -mp 20000 -m"
+
+# SIPP Client
+SIPP_CLIENT=192.168.21.56
+SIPP_CLIENT_USER=root
+SIPP_CLIENT_PASSWORD=a
+SIPP_CLIENT_DIR="/root/performance-test"
+SIPP_CLIENT_CMD="./sipp -sf client.xml -inf p1.csv 192.168.100.83:5060 -p 6060 -mi 192.168.100.56 -mp 10000 -d 30s -r 50 -rp 1s -m"
+
+# Not Necessary
+# RTPEngine
+# RTPENGINE_DIR=/root/projects/rtpengine/rtpengine
+
+# Kamailio
+# KAMAILIO_DIR=/root/projects/pcscf
