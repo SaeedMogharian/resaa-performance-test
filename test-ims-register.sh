@@ -11,26 +11,27 @@ n=$1
 
 # source config
 # Define cleanup function to stop all local and remote processes
-cleanup() {
-    echo "Stopping tcpdump, pidstat, and remote SSH commands..."
-    kill $TCPDUMP_PID 2>/dev/null
-    wait $TCPDUMP_PID 2>/dev/null
-    echo "All processes stopped."
-}
+# cleanup() {
+#     echo "Stopping tcpdump, pidstat, and remote SSH commands..."
+#     kill $TCPDUMP_PID 2>/dev/null
+#     wait $TCPDUMP_PID 2>/dev/null
+#     echo "All processes stopped."
+# }
 
 # Trap SIGINT (Ctrl+C) and call cleanup
 trap cleanup SIGINT
 
-# Start tcpdump in the background, saving to ${n}test.pcap, and save its PID
-tcpdump -i any -w "${n}test.pcap" &
-TCPDUMP_PID=$!
+# # Start tcpdump in the background, saving to ${n}test.pcap, and save its PID
+# tcpdump -i any -w "${n}test.pcap" &
+# TCPDUMP_PID=$!
 
 # Correct the variable assignment without spaces around the equals sign
 SIPP_CLIENT_CMD="./sipp -sf register.xml -inf users.csv 172.16.100.74 -m ${n}"
 SIPP_CLIENT_DIR="/root/sipp"
+original_dir=$(pwd)
 
 # Run the SIPp client command and capture its output
-cd ${SIPP_CLIENT_DIR} && ${SIPP_CLIENT_CMD} > "./${n}_sipp_client.log" 
+cd ${SIPP_CLIENT_DIR} && ${SIPP_CLIENT_CMD} > "${original_dir}/${n}_sipp_client.log" 
 
 # After the main SSH command completes, stop tcpdump, pidstat, and the watcher
 cleanup
