@@ -16,7 +16,6 @@ Session Initiation Protocol (REGISTER)
         Expires: 300
         Allow: PRACK, INVITE, ACK, BYE, CANCEL, UPDATE, INFO, SUBSCRIBE, NOTIFY, REFER, MESSAGE, OPTIONS
         Content-Length:  0
-
 # 100 trying
 # 401
 Session Initiation Protocol (401)
@@ -32,7 +31,7 @@ Session Initiation Protocol (401)
         Path: <sip:term@pcscf.ims.mnc011.mcc432.3gppnetwork.org;lr>
         Server: Kamailio S-CSCF
         Content-Length: 0
-# register again:
+# register again with auth:
 Session Initiation Protocol (REGISTER)
     Request-Line: REGISTER sip:ims.mnc011.mcc432.3gppnetwork.org SIP/2.0
     Message Header
@@ -62,7 +61,7 @@ Session Initiation Protocol (REGISTER)
         Content-Length:  0
 
 
-# 100 triung
+# 100 trying
 # 200ok
 Session Initiation Protocol (200)
     Status-Line: SIP/2.0 200 OK
