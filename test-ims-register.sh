@@ -41,7 +41,7 @@ echo "SIPp client and server logs saved as:"
 echo "  - ${n}_sipp_client.log"
 
 # Run the parse_sipp_output script with the log file
-./parse_sipp_output "${n}_sipp_client.log"
+python3 parse_sipp_output.py "${n}_sipp_client.log"
 
 
 # # Run the rtp_analyse Python file, redirecting output to "${n}test.txt"
