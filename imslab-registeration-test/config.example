@@ -1,4 +1,4 @@
 # LOCAL SIPP CLIENT
-SIPP_DIR="/root/performance-test"
-CONFIG_FILES_DIR="/root/projects/ressa-test-framework/ims-registration/scenarios"
+SIPP_DIR="/root/sipp"
+CONFIG_FILES_DIR="./scenarios"
 INFO_FILE="users.csv"
