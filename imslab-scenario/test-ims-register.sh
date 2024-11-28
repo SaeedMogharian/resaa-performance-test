@@ -24,4 +24,4 @@ original_dir=$(pwd)
 cd ${SIPP_DIR} && ${sipp_cmd} > "${original_dir}/${n}_sipp_client.log" 
 
 # Run the parse_sipp_output script with the log file
-cd ${original_dir} && python3 parse_sipp_output.py "${n}_sipp_client.log"
+cd ${original_dir} && python3 ../parse_sipp_output.py "${n}_sipp_client.log"
