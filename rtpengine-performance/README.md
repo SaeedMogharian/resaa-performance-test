@@ -1,3 +1,11 @@
+# RTPEngine Performance Test
+Purpose: Achieve a state where we can have low CPU usage from RTPEngine and maintain the rtp-streams quality
+We build RTPEngine and run it on kernel mode to assess the performance.
+Stress tests are done using SIPp. The important criteria is the number of concurrent calls a single RTPEngine can handle
+
+
+---
+
 # Build & Run RTPENGINE in kernel mode
 
 Other possibly working method to install on Ubuntu: [Link](https://nickvsnetworking.com/rtpengine-installation-configuration-ubuntu-20-04-22-04/)

@@ -1,6 +1,12 @@
 # Kamailio New Call per Second - performance test
 
+با استفاده از ابزار SIPp می‌خواستیم این موضوع را بررسی کنیم که Kamailio چه تعداد تماس جدید ایجاد شده در هر ثانیه را می‌تواند مدیریت کند.
+ابتدا این مطلب را با خود ابزار SIPp بررسی کردیم تا محدودیت‌های آن را بسنجیم و سپس با قرار دادن Kamailio به عنوان PCSCF ظرفیت آن را نیز بررسی کردیم.
 
+
+---
+
+# Testing with SIPp
 ماشین kamailio:
 192.168.21.45
 ماشین sipp server
@@ -103,14 +109,13 @@ retrans = 0
 Failed rate = 1423/10000 > 10%
 
 
-
-
-
+# Script
+The script `kamailio-test.py` inputs the initial states of the test. (the base number of new-call-per-second). Test on each rate. calculate the success rate of test by parsing the SIPp-client output. 
+Ideal rate : <0.1%, Safe rate: <1.0%, Disaster rate: >=10.0%
 # Output
 
-cps_test.txt (test_output):
 ```
-NewCall per Second Test
+New Call per Second Test
 Kamailio Server (192.168.21.45):
 With Scenario File (client.xml):
 Inerval Time (5):
